@@ -1,19 +1,13 @@
-package com.example.ukladajzwyciezaj;
+package com.example.ukladajzwyciezaj.Activites;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
+
+import com.example.ukladajzwyciezaj.R;
+import com.example.ukladajzwyciezaj.UI.ListInstructionAdapter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -38,21 +32,11 @@ public class InstructionActivity extends AppCompatActivity {
 
     public void OnClickButtonCards(View v){
         ListView listView = (ListView) findViewById(R.id.listView);
-        /*
-        Button buttonC = findViewById(R.id.buttonCards);
-        Button buttpnF = findViewById(R.id.buttonFuntionaly);
-        buttonC.setBackgroundColor(Color.GRAY);
-         */
         listView.setAdapter(adapterCards);
     }
 
     public void OnClickButtonFunctionaly(View v){
         ListView listView = (ListView) findViewById(R.id.listView);
-        /*
-        Button buttonC = findViewById(R.id.buttonCards);
-        Button buttpnF = findViewById(R.id.buttonFuntionaly);
-        buttpnF.setBackgroundColor(Color.GRAY);
-         */
         listView.setAdapter(adapterFunctionaly);
     }
 

@@ -5,25 +5,25 @@ import java.util.HashMap;
 
 public class ForwardingAttack {
 
-    private ArrayList<HashMap<Integer, InfluenceKart>> setSideAttack;
+    private ArrayList<HashMap<Integer, CardInfuence>> setSideAttack;
 
-    public ArrayList<HashMap<Integer, InfluenceKart>> getSetSideAttack() {
+    public ArrayList<HashMap<Integer, CardInfuence>> getSetSideAttack() {
         return setSideAttack;
     }
 
     public ForwardingAttack(){
         this.setSideAttack = new ArrayList<>();
-        HashMap<Integer, InfluenceKart> RightAttack = new HashMap<>();
-        HashMap<Integer, InfluenceKart> LeftAttack = new HashMap<>();
-        HashMap<Integer, InfluenceKart> TopAttack = new HashMap<>();
-        HashMap<Integer, InfluenceKart> BottomAttack = new HashMap<>();
+        HashMap<Integer, CardInfuence> RightAttack = new HashMap<>();
+        HashMap<Integer, CardInfuence> LeftAttack = new HashMap<>();
+        HashMap<Integer, CardInfuence> TopAttack = new HashMap<>();
+        HashMap<Integer, CardInfuence> BottomAttack = new HashMap<>();
         this.setSideAttack.add(RightAttack);
         this.setSideAttack.add(LeftAttack);
         this.setSideAttack.add(TopAttack);
         this.setSideAttack.add(BottomAttack);
     }
 
-    public void SaveAttack(InfluenceKart powerAttack, int position, SideAttack side){
+    public void SaveAttack(CardInfuence powerAttack, int position, SideAttack side){
         switch (side){
             case TOP:
                 setSideAttack.get(2).put(position, powerAttack);

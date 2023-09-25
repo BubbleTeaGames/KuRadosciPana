@@ -1,29 +1,17 @@
-package com.example.ukladajzwyciezaj;
+package com.example.ukladajzwyciezaj.Activites;
+import com.example.ukladajzwyciezaj.R;
 import com.example.ukladajzwyciezaj.helpMetod;
 
-import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
 
-import android.app.ActionBar;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.text.InputFilter;
-import android.text.method.DigitsKeyListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.widget.Toast;
 
 import java.util.ArrayList;

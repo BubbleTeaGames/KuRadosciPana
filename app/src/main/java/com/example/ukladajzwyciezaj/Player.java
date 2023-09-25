@@ -6,9 +6,7 @@ import android.content.Context;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -17,18 +15,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.example.ukladajzwyciezaj.Kart;
-import com.example.ukladajzwyciezaj.PileOfKart;
-
 public class Player {
-    private PileOfKart pileOfKart;
+    private PileOfCards pileOfCards;
     private ForwardingAttack informationAttack;
-    protected HashMap<Integer, Kart> positionKart;
+    private HashMap<Integer, Card> positionKart;
     private ImageView[] placeToKartImageVIew = new ImageView[80];
     private Context context;
     private ImageAdapter imageAdapter;
     private String Name;
-    private ArrayList<Kart> KartInHeand;
+    private ArrayList<Card> cardInHeand;
 
 
     public Player(Context context, String name, Game game) throws IOException {
@@ -38,7 +33,7 @@ public class Player {
         this.context = context;
         this.Name = name;
         this.imageAdapter = new ImageAdapter();
-        this.KartInHeand = new ArrayList<>();
+        this.cardInHeand = new ArrayList<>();
         for (int j=0; j<placeToKartImageVIew.length; j++){
             ImageView imageViewToInsert = new ImageView(context);
             int res = this.context.getResources().getIdentifier("grafika_karty","drawable",this.context.getPackageName());
@@ -52,19 +47,16 @@ public class Player {
         return context;
     }
 
-    public PileOfKart getPileOfKart() {
-        return pileOfKart;
+    public PileOfCards getPileOfKart() {
+        return pileOfCards;
     }
 
 
-    public void setPileOfKart(PileOfKart pileOfKart) {
-        this.pileOfKart = pileOfKart;
+    public void setPileOfKart(PileOfCards pileOfCards) {
+        this.pileOfCards = pileOfCards;
     }
-    //public void RemoveKart(GridView gridView, int positionStart, int positionFinish){
 
-    //}
-
-    public HashMap<Integer, Kart> getPositionKart() {
+    public HashMap<Integer, Card> getPositionKart() {
         return positionKart;
     }
 
@@ -85,16 +77,16 @@ public class Player {
     }
     public void completeCartInHeand(Game game){
         //LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
-        int Childcount = this.KartInHeand.size();
+        int Childcount = this.cardInHeand.size();
         if (Childcount < 2 ) {
             while (Childcount < 3) {
                 if (game.getPileOfKart().size() < 1){
                     Toast.makeText(context,"Koniec kart w tali", Toast.LENGTH_SHORT).show();
                     break;
                 }
-                Kart kart = game.getPileOfKart().getRandomKartToGame();
-                this.KartInHeand.add(kart);
-                Childcount = this.KartInHeand.size();
+                Card card = game.getPileOfKart().getRandomKartToGame();
+                this.cardInHeand.add(card);
+                Childcount = this.cardInHeand.size();
             }
         }else{
             Toast.makeText(context,"Nie możesz uzupełnić kart", Toast.LENGTH_SHORT).show();
@@ -103,15 +95,15 @@ public class Player {
 
     public void SetViewLinearlayout(LinearLayout linearLayout){
         linearLayout.removeAllViews();
-        for(int i=0; i<this.KartInHeand.size(); i++){
-            linearLayout.addView(this.KartInHeand.get(i).getImageView());
+        for(int i = 0; i<this.cardInHeand.size(); i++){
+            linearLayout.addView(this.cardInHeand.get(i).getImageView());
         }
     }
 
-    public void EnterCardToPlay(GridView gridView, Kart kart, Integer position){
-        this.positionKart.put(position, kart);
+    public void enterCardToPlay(GridView gridView, Card card, Integer position){
+        this.positionKart.put(position, card);
         int numCol = gridView.getNumColumns();
-        HashMap<SideAttack, InfluenceKart> attackKart = kart.getValueAttack();
+        HashMap<SideAttack, CardInfuence> attackKart = card.getValueAttack();
         this.informationAttack.SaveAttack(attackKart.get(SideAttack.RIGHT),position+1, SideAttack.RIGHT);
         this.informationAttack.SaveAttack(attackKart.get(SideAttack.LEFT),position-1, SideAttack.LEFT);
         this.informationAttack.SaveAttack(attackKart.get(SideAttack.TOP),position - numCol, SideAttack.TOP);
@@ -119,7 +111,7 @@ public class Player {
 
     }
 
-    public void DeleteKart(int position){
+    public void deleteKart(int position){
         this.positionKart.remove(position);
         GridView gridView1 = ((Activity) context).findViewById(R.id.gridview);
         int numCol = gridView1.getNumColumns();
