@@ -1,0 +1,3 @@
+----name_grafic----;----name_cards----;----description----;
+grafika_karty;namecards;opis;
+grafika_karty;namecards;opis;

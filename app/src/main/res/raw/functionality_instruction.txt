@@ -1,0 +1,3 @@
+----name_grafic----;----name_cards----;----description----;
+kart_to_insite;name name name;opis opis;
+kart_to_insite;name name name;opis opis;

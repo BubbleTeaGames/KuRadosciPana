@@ -1,0 +1,7 @@
+------name-----;-----right------;-----bottom-----;-----left-----;------top------;
+kart_left_attack_right_defence;DEFENSE;NEUTRAL;ATTACK;NEUTRAL
+topdefence_bottom_defence;NEUTRAL;DEFENSE;NEUTRAL;DEFENSE
+right_doble_attack;DOUBLE_ATTACK;NEUTRAL;NEUTRAL;NEUTRAL
+kart_left_attack_right_defence;DEFENSE;NEUTRAL;ATTACK;NEUTRAL
+topdefence_bottom_defence;NEUTRAL;DEFENSE;NEUTRAL;DEFENSE
+right_doble_attack;DOUBLE_ATTACK;NEUTRAL;NEUTRAL;NEUTRAL
