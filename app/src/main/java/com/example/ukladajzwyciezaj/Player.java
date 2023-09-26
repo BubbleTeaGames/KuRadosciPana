@@ -112,14 +112,15 @@ public class Player {
         int numCol = gridView.getNumColumns();
         int numObject = gridView.getAdapter().getCount();
         int positionUnderCard = position + numCol;
-        if (positionUnderCard < numObject && this.positionKart.containsKey(positionUnderCard)){
-            return positionUnderCard;
-        }else {
-            return position;
+        while (positionUnderCard < numObject-1 && !this.positionKart.containsKey(positionUnderCard)) {
+            position = positionUnderCard;
+            positionUnderCard = position + numCol;
         }
+        return position;
+
     }
 
-    public void EnterCardToPlay(GridView gridView, Kart kart, Integer position){
+    public int EnterCardToPlay(GridView gridView, Kart kart, Integer position){
         int numCol = gridView.getNumColumns();
         position = getPositionCardAfterGravitation(gridView, position);
         this.positionKart.put(position, kart);
@@ -128,6 +129,7 @@ public class Player {
         this.informationAttack.SaveAttack(attackKart.get(SideAttack.LEFT),position-1, SideAttack.LEFT);
         this.informationAttack.SaveAttack(attackKart.get(SideAttack.TOP),position - numCol, SideAttack.TOP);
         this.informationAttack.SaveAttack(attackKart.get(SideAttack.BOTTOM),position + numCol, SideAttack.BOTTOM);
+        return position;
     }
 
     public void DeleteKart(int position){

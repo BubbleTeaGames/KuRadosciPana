@@ -81,12 +81,13 @@ public class GameActivity extends AppCompatActivity {
             public  void onItemClick(AdapterView parent, View v, int position, long id){
                 Toast.makeText(getBaseContext(),"Wybrano kartę nr"+(position+1), Toast.LENGTH_SHORT).show();
                 if (chosen_kart != null) {
-                    ImageView clickedImageView = (ImageView) v;
                     ImageView chosen_imageView = chosen_kart.getImageView();
-                    clickedImageView.setImageDrawable(chosen_imageView.getDrawable());
+                    int newPosition = CurrentVIewPlayer.EnterCardToPlay(gridView, chosen_kart,position);
+                    ImageView placeforCard = (ImageView) gridView.getAdapter().getView(newPosition, null, gridView);
+                    placeforCard.setImageDrawable(chosen_imageView.getDrawable());
                     LinearLayout linearLayout1 = findViewById(R.id.linearLayout);
                     linearLayout1.removeView(chosen_imageView);
-                    CurrentVIewPlayer.EnterCardToPlay(gridView, chosen_kart,position);
+
                     chosen_kart = null;
                 }
             }
