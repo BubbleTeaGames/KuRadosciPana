@@ -108,15 +108,26 @@ public class Player {
         }
     }
 
-    public void EnterCardToPlay(GridView gridView, Kart kart, Integer position){
-        this.positionKart.put(position, kart);
+    public int getPositionCardAfterGravitation(GridView gridView, int position){
         int numCol = gridView.getNumColumns();
+        int numObject = gridView.getAdapter().getCount();
+        int positionUnderCard = position + numCol;
+        if (positionUnderCard < numObject && this.positionKart.containsKey(positionUnderCard)){
+            return positionUnderCard;
+        }else {
+            return position;
+        }
+    }
+
+    public void EnterCardToPlay(GridView gridView, Kart kart, Integer position){
+        int numCol = gridView.getNumColumns();
+        position = getPositionCardAfterGravitation(gridView, position);
+        this.positionKart.put(position, kart);
         HashMap<SideAttack, InfluenceKart> attackKart = kart.getValueAttack();
         this.informationAttack.SaveAttack(attackKart.get(SideAttack.RIGHT),position+1, SideAttack.RIGHT);
         this.informationAttack.SaveAttack(attackKart.get(SideAttack.LEFT),position-1, SideAttack.LEFT);
         this.informationAttack.SaveAttack(attackKart.get(SideAttack.TOP),position - numCol, SideAttack.TOP);
         this.informationAttack.SaveAttack(attackKart.get(SideAttack.BOTTOM),position + numCol, SideAttack.BOTTOM);
-
     }
 
     public void DeleteKart(int position){
