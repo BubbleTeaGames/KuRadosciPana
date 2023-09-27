@@ -112,11 +112,11 @@ public class Player {
 
     }
 
-    public int EnterCardToPlay(GridView gridView, Kart kart, Integer position){
+    public int EnterCardToPlay(GridView gridView, Card kart, Integer position){
         int numCol = gridView.getNumColumns();
         position = getPositionCardAfterGravitation(gridView, position);
         this.positionKart.put(position, kart);
-        HashMap<SideAttack, InfluenceKart> attackKart = kart.getValueAttack();
+        HashMap<SideAttack, CardInfuence> attackKart = kart.getValueAttack();
         this.informationAttack.SaveAttack(attackKart.get(SideAttack.RIGHT),position+1, SideAttack.RIGHT);
         this.informationAttack.SaveAttack(attackKart.get(SideAttack.LEFT),position-1, SideAttack.LEFT);
         this.informationAttack.SaveAttack(attackKart.get(SideAttack.TOP),position - numCol, SideAttack.TOP);

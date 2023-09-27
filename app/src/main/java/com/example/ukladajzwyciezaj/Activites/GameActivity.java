@@ -80,15 +80,15 @@ public class GameActivity extends AppCompatActivity {
         {
             public  void onItemClick(AdapterView parent, View v, int position, long id){
                 Toast.makeText(getBaseContext(),"Wybrano kartę nr"+(position+1), Toast.LENGTH_SHORT).show();
-                if (chosen_kart != null) {
-                    ImageView chosen_imageView = chosen_kart.getImageView();
-                    int newPosition = CurrentVIewPlayer.EnterCardToPlay(gridView, chosen_kart,position);
-                    ImageView placeforCard = (ImageView) gridView.getAdapter().getView(newPosition, null, gridView);
+                if (chosen_card != null) {
+                    ImageView chosen_imageView = chosen_card.getImageView();
+                    int newPosition = CurrentVIewPlayer.EnterCardToPlay(cardsContainer, chosen_card,position);
+                    ImageView placeforCard = (ImageView) cardsContainer.getAdapter().getView(newPosition, null, cardsContainer);
                     placeforCard.setImageDrawable(chosen_imageView.getDrawable());
                     LinearLayout linearLayout1 = findViewById(R.id.linearLayout);
                     linearLayout1.removeView(chosen_imageView);
 
-                    chosen_kart = null;
+                    chosen_card = null;
                 }
             }
         });
