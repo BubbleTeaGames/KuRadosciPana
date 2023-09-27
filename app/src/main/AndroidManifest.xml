@@ -13,13 +13,13 @@
         android:theme="@style/Theme.UkladajZwyciezaj"
         tools:targetApi="31">
         <activity
-            android:name=".InstructionActivity"
+            android:name=".Activites.InstructionActivity"
             android:exported="false" />
         <activity
-            android:name=".GameActivity"
+            android:name=".Activites.GameActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Activites.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
