@@ -10,8 +10,9 @@ public class Kart {
     private HashMap<SideAttack, InfluenceKart> ValueAttack;
     private ImageView imageView;
     int ImageResource;
+    private int puntaction;
 
-    public Kart(InfluenceKart left, InfluenceKart right, InfluenceKart top, InfluenceKart bottom, ImageView imageView, int imageResource){
+    public Kart(InfluenceKart left, InfluenceKart right, InfluenceKart top, InfluenceKart bottom, ImageView imageView, int imageResource, int puntaction){
         this.ValueAttack = new HashMap<>();
         this.ImageResource = imageResource;
         this.ValueAttack.put(SideAttack.RIGHT, right);
@@ -19,6 +20,7 @@ public class Kart {
         this.ValueAttack.put(SideAttack.TOP, top);
         this.ValueAttack.put(SideAttack.BOTTOM, bottom);
         this.imageView = imageView;
+        this.puntaction = puntaction;
     }
 
     public Kart setOnClickListener(View.OnClickListener listener) {

@@ -51,7 +51,7 @@ public class PileOfKart{
             KartView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 
             Kart kart = new Kart(InfluenceKart.valueOf(actualValue[3]),InfluenceKart.valueOf(actualValue[1]),
-                    InfluenceKart.valueOf(actualValue[2]), InfluenceKart.valueOf(actualValue[4]), KartView, resId);
+                    InfluenceKart.valueOf(actualValue[2]), InfluenceKart.valueOf(actualValue[4]), KartView, resId, Integer.valueOf(actualValue[5]));
 
             kart.setOnClickListener(new View.OnClickListener() {
                 @Override
