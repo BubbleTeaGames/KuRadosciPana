@@ -20,6 +20,8 @@ public class Game {
     private int CurrentPlayerIndex = Integer.MAX_VALUE;
     private Context context;
 
+    private Turn turn;
+
     public Game(Context context, GameActivity gameActivity, ArrayList<String> NamePlayersList) throws IOException {
         this.pileOfKart = new PileOfKart(context, gameActivity);
         this.Players = new ArrayList<>();
@@ -34,6 +36,7 @@ public class Game {
         }
         this.CurrentPlayerIndex = 0;
         this.context = context;
+        this.turn = new Turn(this.Players, 2);
     }
 
     public PileOfKart getPileOfKart() {
@@ -58,6 +61,10 @@ public class Game {
             this.CurrentPlayerIndex = this.CurrentPlayerIndex+1;
         }
         return this.Players.get(this.CurrentPlayerIndex);
+    }
+
+    public Turn getTurn() {
+        return turn;
     }
 
     public ArrayList<Pair<Player, Integer>> Buttle(){
