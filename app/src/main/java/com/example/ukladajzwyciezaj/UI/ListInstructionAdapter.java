@@ -1,4 +1,4 @@
-package com.example.ukladajzwyciezaj;
+package com.example.ukladajzwyciezaj.UI;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.ukladajzwyciezaj.R;
 
 import java.util.Collections;
 

@@ -1,12 +1,12 @@
 package com.example.ukladajzwyciezaj;
-import com.example.ukladajzwyciezaj.Kart;
-import android.app.Activity;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.example.ukladajzwyciezaj.Activites.GameActivity;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,15 +15,15 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class PileOfKart{
-    private ArrayList<Kart> setAllKart;
+public class PileOfCards {
+    private ArrayList<Card> setAllCard;
     private Context context;
     private GameActivity gameActivity;
 
-    public PileOfKart(Context context, GameActivity gameActivity) throws IOException {
+    public PileOfCards(Context context, GameActivity gameActivity) throws IOException {
 
         this.context = context;
-        this.setAllKart = new ArrayList<>();
+        this.setAllCard = new ArrayList<>();
 
         InputStream inputStream = context.getResources().openRawResource(R.raw.set_information_about_kart);
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
@@ -50,18 +50,18 @@ public class PileOfKart{
 
             KartView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 
-            Kart kart = new Kart(InfluenceKart.valueOf(actualValue[3]),InfluenceKart.valueOf(actualValue[1]),
-                    InfluenceKart.valueOf(actualValue[2]), InfluenceKart.valueOf(actualValue[4]), KartView, resId, Integer.valueOf(actualValue[5]));
+            Card card = new Card(CardInfuence.valueOf(actualValue[3]), CardInfuence.valueOf(actualValue[1]),
+                    CardInfuence.valueOf(actualValue[2]), CardInfuence.valueOf(actualValue[4]), KartView, resId, Integer.valueOf(actualValue[5]));
 
-            kart.setOnClickListener(new View.OnClickListener() {
+            card.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(context,"Wybrano kartę do wstawienia", Toast.LENGTH_SHORT).show();
-                    gameActivity.setChosen_kart(kart);
+                    gameActivity.setChosenKart(card);
                 }
             });
 
-            this.setAllKart.add(kart);
+            this.setAllCard.add(card);
         }
 
         // Zamknięcie strumieni
@@ -70,24 +70,24 @@ public class PileOfKart{
         inputStream.close();
     }
 
-    public Kart getRandomKartToGame(){
-        if (!this.setAllKart.isEmpty()) {
-            int howManyRandom = setAllKart.size();
+    public Card getRandomKartToGame(){
+        if (!this.setAllCard.isEmpty()) {
+            int howManyRandom = setAllCard.size();
             Random rand = new Random();
             int randint = rand.nextInt(howManyRandom) + 1;
 
-            Kart removeKart = this.setAllKart.remove(randint - 1);
-            return removeKart;
+            Card removeCard = this.setAllCard.remove(randint - 1);
+            return removeCard;
         }
         return null;
     }
 
     public boolean isEmpty(){
-        return this.setAllKart.isEmpty();
+        return this.setAllCard.isEmpty();
     }
 
     public int size(){
-        return this.setAllKart.size();
+        return this.setAllCard.size();
     }
 
 }
