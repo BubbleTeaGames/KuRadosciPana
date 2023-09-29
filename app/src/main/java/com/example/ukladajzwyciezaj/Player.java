@@ -147,7 +147,7 @@ public class Player {
 
 
 
-    public class ImageAdapter extends BaseAdapter {
+    public class ImageAdapter extends BaseAdapter{
         @Override
         public int getCount() {
             return placeToKartImageVIew.length;
@@ -206,17 +206,12 @@ public class Player {
             // Pobierz drugi ImageView (ikonkę) i ustaw ikonkę na środku
             ImageView iconImageView = view.findViewById(R.id.iconImageView);
             iconImageView.setImageResource(R.drawable.ic_launcher_foreground);
-            if (paws.getActualPositoin() == position){
+            if (getPaws().getActualPositoin() != null && getPaws().getActualPositoin() == position){
                 iconImageView.setVisibility(View.VISIBLE);
             }
-
             return view;
-
         }
-
-
     }
-
 }
 
 

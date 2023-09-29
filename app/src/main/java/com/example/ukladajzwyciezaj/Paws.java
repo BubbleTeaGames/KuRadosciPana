@@ -14,6 +14,7 @@ public class Paws {
     private Context context;
 
     public Paws(Context context,int quantityRow, int quantityCol){
+        this.actualPositoin = null;
         this.context = context;
         this.quantityCol = quantityCol;
         this.quantityRow = quantityRow;
@@ -39,7 +40,7 @@ public class Paws {
             newPlace = movement(position, positionCards);
         }
         if (newPlace != null){
-            actualPositoin = newPlace;
+            this.actualPositoin = newPlace;
         }
     }
 
@@ -78,5 +79,4 @@ public class Paws {
             return null;
         }
     }
-
 }
