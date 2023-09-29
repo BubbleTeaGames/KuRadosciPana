@@ -27,6 +27,7 @@ import kotlin.Pair;
 
 public class GameActivity extends AppCompatActivity {
     private Card chosen_card = null;
+    private boolean pawnMovementEnable = false;
     private Game game;
     private Player CurrentVIewPlayer = null;
     private Player CurrentPlayer = null;
@@ -55,15 +56,13 @@ public class GameActivity extends AppCompatActivity {
 
         GridView cardsContainer = findViewById(R.id.gridview);
         LinearLayout listPlayer = findViewById(R.id.ListPlayer);
-
-
+        
         for (String playerName : getPlayersNames()) {
             Button buttonPlayer = new Button(this);
             buttonPlayer.setText(playerName);
             buttonPlayer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     String NamePlayer = (String) buttonPlayer.getText();
                     for (Player elem : game.getPlayers()){
                         if (elem.getName() == NamePlayer){
@@ -82,22 +81,26 @@ public class GameActivity extends AppCompatActivity {
                 Toast.makeText(getBaseContext(),"Wybrano kartę nr"+(position+1), Toast.LENGTH_SHORT).show();
                 if (chosen_card != null && game.getTurn().checkPossiblityMovement(CurrentPlayer)) {
                     ImageView chosen_imageView = chosen_card.getImageView();
-                    int newPosition = CurrentVIewPlayer.EnterCardToPlay(cardsContainer, chosen_card, position);
-                    ImageView placeforCard = (ImageView) cardsContainer.getAdapter().getView(newPosition, null, cardsContainer);
-
-                    placeforCard.setImageDrawable(chosen_imageView.getDrawable());
+                    CurrentVIewPlayer.EnterCardToPlay(cardsContainer, chosen_card, position);
+                    //View placeforCard =  cardsContainer.getAdapter().getView(newPosition, null, cardsContainer);
+                    //ImageView toChance = (ImageView) placeforCard.findViewById(R.id.imageView);
+                    //toChance.setImageDrawable(chosen_imageView.getDrawable());
+                    CurrentVIewPlayer.getImageAdapter().notifyDataSetChanged();
                     LinearLayout linearLayout1 = findViewById(R.id.linearLayout);
                     linearLayout1.removeView(chosen_imageView);
                     game.getTurn().addMoveInTour(CurrentPlayer);
 
                     chosen_card = null;
+                } else if ((pawnMovementEnable) && (CurrentPlayer == CurrentVIewPlayer)) {
+                    CurrentPlayer.getPaws().movePaws(position, CurrentPlayer.getPositionKart());
+                    CurrentPlayer.getImageAdapter().refreshAdapter();
                 }
             }
         });
 
         LinearLayout linearLayout = findViewById(R.id.linearLayout);
         TextView textView = findViewById(R.id.CurrentPlayer);
-        this.CurrentPlayer = game.getNextPlayer();
+        this.CurrentPlayer = game.getTurn().getNextPlayer();
         this.CurrentPlayer.SetViewLinearlayout(linearLayout);
         textView.setText(this.CurrentPlayer.getName());
 
@@ -159,17 +162,14 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void OnclickButtonEndTurn(View v){
-        ArrayList<Pair<Player, Integer>> a = game.battle();
-        //CurrentPlayer.getImageAdapter().changeFirstImage(R.drawable.kart_left_attack_right_defence, 0);
-        //LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
-        //linearLayout.removeAllViews();
-        //Toast.makeText(getBaseContext(),"test", Toast.LENGTH_SHORT).show();
+        this.pawnMovementEnable = !pawnMovementEnable;
+        this.chosen_card = null;
     }
 
     public void OnClickButtonNextPlayer(View v){
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
         TextView textView = findViewById(R.id.CurrentPlayer);
-        this.CurrentPlayer = game.getNextPlayer();
+        this.CurrentPlayer = game.getTurn().getNextPlayer();
         this.CurrentPlayer.SetViewLinearlayout(linearLayout);
         textView.setText(this.CurrentPlayer.getName());
     }

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -24,9 +25,10 @@ public class Player {
     private ImageAdapter imageAdapter;
     private String Name;
     private ArrayList<Card> cardInHeand;
+    private Paws paws;
 
 
-    public Player(Context context, String name, Game game) throws IOException {
+    public Player(Context context, String name, Game game,int numRow, int numCol) throws IOException {
         //this.pileOfKart = new PileOfKart(context);
         this.positionKart = new HashMap<>();
         this.informationAttack = new ForwardingAttack();
@@ -41,6 +43,7 @@ public class Player {
             this.placeToKartImageVIew[j] = imageViewToInsert;
         }
         this.completeCartInHeand(game);
+        this.paws = new Paws(context, numRow, numCol);
     }
 
     public Context getContext() {
@@ -51,6 +54,13 @@ public class Player {
         return pileOfCards;
     }
 
+    public ImageView[] getPlaceToKartImageVIew() {
+        return placeToKartImageVIew;
+    }
+
+    public Paws getPaws() {
+        return paws;
+    }
 
     public void setPileOfKart(PileOfCards pileOfCards) {
         this.pileOfCards = pileOfCards;
@@ -116,6 +126,7 @@ public class Player {
         int numCol = gridView.getNumColumns();
         position = getPositionCardAfterGravitation(gridView, position);
         this.positionKart.put(position, kart);
+        this.placeToKartImageVIew[position] = kart.getImageView();
         HashMap<SideAttack, CardInfuence> attackKart = kart.getValueAttack();
         this.informationAttack.SaveAttack(attackKart.get(SideAttack.RIGHT),position+1, SideAttack.RIGHT);
         this.informationAttack.SaveAttack(attackKart.get(SideAttack.LEFT),position-1, SideAttack.LEFT);
@@ -158,27 +169,52 @@ public class Player {
                 notifyDataSetChanged();
             }
         }
+        public void refreshAdapter(){
+            notifyDataSetChanged();
+        }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
+            /*
             ImageView imageView;
-            //if (convertView == null){
-                imageView = placeToKartImageVIew[position];
-                imageView.setLayoutParams(new GridView.LayoutParams(500, 500));
 
-                int desiredWidth = 200; // Dostosuj tę wartość do preferencji
-                int desiredHeight = 350; // Dostosuj tę wartość do preferencji
-                imageView.setLayoutParams(new GridView.LayoutParams(desiredWidth, desiredHeight));
-                imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                imageView.setPadding(16,16,16,16);
-                //
-                //imageView = placeToKartImageVIew[position];
-            //}else {
-                //imageView = (ImageView) convertView;
-            //}
-            imageView.setImageDrawable(placeToKartImageVIew[position].getDrawable());
+            imageView = placeToKartImageVIew[position];
+            imageView.setLayoutParams(new GridView.LayoutParams(500, 500));
+
+            int desiredWidth = 200; // Dostosuj tę wartość do preferencji
+            int desiredHeight = 350; // Dostosuj tę wartość do preferencji
+            imageView.setLayoutParams(new GridView.LayoutParams(desiredWidth, desiredHeight));
+            imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            imageView.setPadding(16,16,16,16);
+
+            //imageView.setImageDrawable(placeToKartImageVIew[position].getDrawable());
             return imageView;
+
+             */
+
+            View view ;
+            //ImageView imageView = placeToKartImageVIew[position];
+            //if (view == null) {
+                LayoutInflater inflater = LayoutInflater.from(context);
+                view = inflater.inflate(R.layout.players_pawn, null);
+            //}
+
+            // Pobierz ImageView i ustaw ikonkę
+            ImageView imageView1 = (ImageView) view.findViewById(R.id.imageView);
+            imageView1.setImageDrawable(placeToKartImageVIew[position].getDrawable());
+
+            // Pobierz drugi ImageView (ikonkę) i ustaw ikonkę na środku
+            ImageView iconImageView = view.findViewById(R.id.iconImageView);
+            iconImageView.setImageResource(R.drawable.ic_launcher_foreground);
+            if (paws.getActualPositoin() == position){
+                iconImageView.setVisibility(View.VISIBLE);
+            }
+
+            return view;
+
         }
+
+
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.ukladajzwyciezaj;
 
 import android.content.Context;
+import android.widget.GridView;
 
 import com.example.ukladajzwyciezaj.Activites.GameActivity;
 
@@ -24,10 +25,13 @@ public class Game {
     public Game(Context context, GameActivity gameActivity, ArrayList<String> playerNames) throws IOException {
         this.pileOfCards = new PileOfCards(context, gameActivity);
         this.players = new ArrayList<>();
+        GridView cardsContainers = gameActivity.findViewById(R.id.gridview);
+        int numCol = cardsContainers.getNumColumns();
+        int numRow = cardsContainers.getCount()/numCol;
 
         for (String playerName : playerNames) {
             try {
-                Player player = new Player(context, playerName, this);
+                Player player = new Player(context, playerName, this, numRow, numCol);
                 this.players.add(player);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -45,16 +49,6 @@ public class Game {
     public ArrayList<Player> getPlayers() {
         return players;
     }
-
-    public Player getNextPlayer(){
-        if (this.currentPlayerIndex >= this.players.size()-1){
-            this.currentPlayerIndex = 0;
-        }else {
-            this.currentPlayerIndex = this.currentPlayerIndex +1;
-        }
-        return this.players.get(this.currentPlayerIndex);
-    }
-
 
     public Turn getTurn() {
         return turn;
