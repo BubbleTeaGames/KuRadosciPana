@@ -22,12 +22,11 @@ public class Game {
     private Context context;
 
     private Turn turn;
-    public Game(Context context, GameActivity gameActivity, ArrayList<String> playerNames) throws IOException {
+    public Game(Context context, GameActivity gameActivity, ArrayList<String> playerNames, GridView gridView) throws IOException {
         this.pileOfCards = new PileOfCards(context, gameActivity);
         this.players = new ArrayList<>();
-        GridView cardsContainers = gameActivity.findViewById(R.id.gridview);
-        int numCol = cardsContainers.getNumColumns();
-        int numRow = cardsContainers.getCount()/numCol;
+        int numCol = gridView.getNumColumns();
+        int numRow = gridView.getCount()/numCol;
 
         for (String playerName : playerNames) {
             try {

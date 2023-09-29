@@ -18,7 +18,6 @@ import java.util.Random;
 public class PileOfCards {
     private ArrayList<Card> setAllCard;
     private Context context;
-    private GameActivity gameActivity;
 
     public PileOfCards(Context context, GameActivity gameActivity) throws IOException {
 

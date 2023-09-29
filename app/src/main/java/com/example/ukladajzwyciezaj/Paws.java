@@ -34,7 +34,7 @@ public class Paws {
 
     public void movePaws(int position, HashMap<Integer, Card> positionCards){
         Integer newPlace;
-        if (actualPositoin == 0){
+        if (actualPositoin == null){
             newPlace = startPaws(position);
         }else {
             newPlace = movement(position, positionCards);

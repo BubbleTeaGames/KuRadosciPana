@@ -51,12 +51,12 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-
-        createGame();
-
         GridView cardsContainer = findViewById(R.id.gridview);
+        int numCol = cardsContainer.getNumColumns();
         LinearLayout listPlayer = findViewById(R.id.ListPlayer);
-        
+
+        createGame(cardsContainer);
+
         for (String playerName : getPlayersNames()) {
             Button buttonPlayer = new Button(this);
             buttonPlayer.setText(playerName);
@@ -127,10 +127,10 @@ public class GameActivity extends AppCompatActivity {
         });
     }
 
-    private void createGame() {
+    private void createGame(GridView gridView) {
         ArrayList<String> playerNames = getPlayersNames();
         try {
-            game = new Game(this,this, playerNames);
+            game = new Game(this,this, playerNames, gridView);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
