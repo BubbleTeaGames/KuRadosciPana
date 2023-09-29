@@ -52,10 +52,9 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         GridView cardsContainer = findViewById(R.id.gridview);
-        int numCol = cardsContainer.getNumColumns();
         LinearLayout listPlayer = findViewById(R.id.ListPlayer);
 
-        createGame(cardsContainer);
+        createGame();
 
         for (String playerName : getPlayersNames()) {
             Button buttonPlayer = new Button(this);
@@ -104,7 +103,7 @@ public class GameActivity extends AppCompatActivity {
         this.CurrentPlayer.SetViewLinearlayout(linearLayout);
         textView.setText(this.CurrentPlayer.getName());
 
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        Spinner spinner = findViewById(R.id.spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, opcje);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -127,10 +126,10 @@ public class GameActivity extends AppCompatActivity {
         });
     }
 
-    private void createGame(GridView gridView) {
+    private void createGame() {
         ArrayList<String> playerNames = getPlayersNames();
         try {
-            game = new Game(this,this, playerNames, gridView);
+            game = new Game(this,this, playerNames);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -154,7 +153,7 @@ public class GameActivity extends AppCompatActivity {
             Toast.makeText(getBaseContext(),"Nie możesz uzupełnić kart", Toast.LENGTH_SHORT).show();
         }
         */
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
+        LinearLayout linearLayout = findViewById(R.id.linearLayout);
         if(CurrentVIewPlayer!=null) {
             CurrentVIewPlayer.completeCartInHeand(game);
             CurrentVIewPlayer.SetViewLinearlayout(linearLayout);
@@ -167,7 +166,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void OnClickButtonNextPlayer(View v){
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
+        LinearLayout linearLayout = findViewById(R.id.linearLayout);
         TextView textView = findViewById(R.id.CurrentPlayer);
         this.CurrentPlayer = game.getTurn().getNextPlayer();
         this.CurrentPlayer.SetViewLinearlayout(linearLayout);

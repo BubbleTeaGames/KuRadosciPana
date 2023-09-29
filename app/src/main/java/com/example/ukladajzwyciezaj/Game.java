@@ -22,15 +22,13 @@ public class Game {
     private Context context;
 
     private Turn turn;
-    public Game(Context context, GameActivity gameActivity, ArrayList<String> playerNames, GridView gridView) throws IOException {
+    public Game(Context context, GameActivity gameActivity, ArrayList<String> playerNames) throws IOException {
         this.pileOfCards = new PileOfCards(context, gameActivity);
         this.players = new ArrayList<>();
-        int numCol = gridView.getNumColumns();
-        int numRow = gridView.getCount()/numCol;
 
         for (String playerName : playerNames) {
             try {
-                Player player = new Player(context, playerName, this, numRow, numCol);
+                Player player = new Player(context, playerName, this, 8, 10);   //!!! wartosci nie dynamiczne
                 this.players.add(player);
             } catch (IOException e) {
                 throw new RuntimeException(e);

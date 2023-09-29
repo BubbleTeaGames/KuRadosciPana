@@ -79,4 +79,9 @@ public class Paws {
             return null;
         }
     }
+
+    public double getRowPawn(){
+        double RowPawn = quantityRow-((actualPositoin)/(quantityCol));
+        return Math.ceil(4.3);
+    }
 }
