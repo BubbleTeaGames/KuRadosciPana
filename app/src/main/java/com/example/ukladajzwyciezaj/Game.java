@@ -36,7 +36,7 @@ public class Game {
         }
         this.currentPlayerIndex = 0;
         this.context = context;
-        this.turn = new Turn(this.players, 2);
+        this.turn = new Turn(this.players, 2, 1);
     }
 
     public PileOfCards getPileOfKart() {

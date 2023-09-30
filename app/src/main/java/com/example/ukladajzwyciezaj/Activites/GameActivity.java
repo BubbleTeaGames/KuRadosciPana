@@ -27,7 +27,7 @@ import kotlin.Pair;
 
 public class GameActivity extends AppCompatActivity {
     private Card chosen_card = null;
-    private boolean pawnMovementEnable = false;
+    private boolean buttonPawnEnable = false;
     private Game game;
     private Player CurrentVIewPlayer = null;
     private Player CurrentPlayer = null;
@@ -81,18 +81,16 @@ public class GameActivity extends AppCompatActivity {
                 if (chosen_card != null && game.getTurn().checkPossiblityMovement(CurrentPlayer)) {
                     ImageView chosen_imageView = chosen_card.getImageView();
                     CurrentVIewPlayer.EnterCardToPlay(cardsContainer, chosen_card, position);
-                    //View placeforCard =  cardsContainer.getAdapter().getView(newPosition, null, cardsContainer);
-                    //ImageView toChance = (ImageView) placeforCard.findViewById(R.id.imageView);
-                    //toChance.setImageDrawable(chosen_imageView.getDrawable());
                     CurrentVIewPlayer.getImageAdapter().notifyDataSetChanged();
                     LinearLayout linearLayout1 = findViewById(R.id.linearLayout);
                     linearLayout1.removeView(chosen_imageView);
                     game.getTurn().addMoveInTour(CurrentPlayer);
 
                     chosen_card = null;
-                } else if ((pawnMovementEnable) && (CurrentPlayer == CurrentVIewPlayer)) {
+                } else if ((buttonPawnEnable) && (CurrentPlayer == CurrentVIewPlayer) && (game.getTurn().checkPossibilityMovementPawn(CurrentPlayer))) {
                     CurrentPlayer.getPaws().movePaws(position, CurrentPlayer.getPositionKart());
                     CurrentPlayer.getImageAdapter().refreshAdapter();
+                    game.getTurn().addMovePawnInTurn(CurrentPlayer);
                 }
             }
         });
@@ -136,23 +134,6 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void completeCartInHeand(View v){
-        /*
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
-        int Childcount = linearLayout.getChildCount();
-        if (Childcount < 2 ) {
-            while (Childcount < 3) {
-                if (game.getPileOfKart().size() < 1){
-                    Toast.makeText(getBaseContext(),"Koniec kart w tali", Toast.LENGTH_SHORT).show();
-                    break;
-                }
-                ImageView localView = game.getPileOfKart().getRandomKartToGame().getImageView();
-                linearLayout.addView(localView);
-                Childcount = linearLayout.getChildCount();
-            }
-        }else{
-            Toast.makeText(getBaseContext(),"Nie możesz uzupełnić kart", Toast.LENGTH_SHORT).show();
-        }
-        */
         LinearLayout linearLayout = findViewById(R.id.linearLayout);
         if(CurrentVIewPlayer!=null) {
             CurrentVIewPlayer.completeCartInHeand(game);
@@ -161,7 +142,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void OnclickButtonEndTurn(View v){
-        this.pawnMovementEnable = !pawnMovementEnable;
+        this.buttonPawnEnable = !buttonPawnEnable;
         this.chosen_card = null;
     }
 
