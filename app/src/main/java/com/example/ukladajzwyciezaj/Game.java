@@ -22,13 +22,17 @@ public class Game {
     private Context context;
 
     private Turn turn;
-    public Game(Context context, GameActivity gameActivity, ArrayList<String> playerNames) throws IOException {
+    private Integer numColCardContainer;
+    private Integer numRowCardContainer;
+    public Game(Context context, GameActivity gameActivity, ArrayList<String> playerNames, Integer numCol, Integer numRow) throws IOException {
         this.pileOfCards = new PileOfCards(context, gameActivity);
         this.players = new ArrayList<>();
+        this.numColCardContainer = numCol;
+        this.numRowCardContainer = numRow;
 
         for (String playerName : playerNames) {
             try {
-                Player player = new Player(context, playerName, this, 8, 10);   //!!! wartosci nie dynamiczne
+                Player player = new Player(context, playerName, this, numRow, numCol);
                 this.players.add(player);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -86,5 +90,28 @@ public class Game {
         return cardsToBeRemoved;
     }
 
+    public HashMap<Player, Integer> calculateScores(){
+        HashMap<Player, Integer> scores = new HashMap<>();
+        for (Player player : players){
+            scores.put(player, 0);
+        }
+        for (Player player : this.players) {
+            double multiplierPoint = player.getPaws().getRowPawn() - 1;
+            HashMap<Integer, Card> positionCard = player.getPositionKart();
+            for (Map.Entry<Integer, Card> entry : positionCard.entrySet()){
+                int rowCard = (int) getRowCard(entry.getKey());
+                if (rowCard > multiplierPoint) {
+                    rowCard = 1;
+                }
+                scores.put(player, scores.get(player)+(entry.getValue().getPuntaction()*rowCard));
+            }
+        }
+        return scores;
+    }
+
+    private double getRowCard(int position){
+        double rowCard = this.numRowCardContainer-((position)/(this.numColCardContainer));
+        return Math.ceil(rowCard);
+    }
 
 }

@@ -27,6 +27,10 @@ public class Card {
         return this;
     }
 
+    public int getPuntaction() {
+        return puntaction;
+    }
+
     public HashMap<SideAttack, CardInfuence> getValueAttack() {
         return ValueAttack;
     }

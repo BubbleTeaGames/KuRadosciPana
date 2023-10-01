@@ -127,7 +127,7 @@ public class GameActivity extends AppCompatActivity {
     private void createGame() {
         ArrayList<String> playerNames = getPlayersNames();
         try {
-            game = new Game(this,this, playerNames);
+            game = new Game(this,this, playerNames, 10, 8);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -147,12 +147,11 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void OnClickButtonNextPlayer(View v){
+        buttonPawnEnable = false;
         LinearLayout linearLayout = findViewById(R.id.linearLayout);
         TextView textView = findViewById(R.id.CurrentPlayer);
         this.CurrentPlayer = game.getTurn().getNextPlayer();
         this.CurrentPlayer.SetViewLinearlayout(linearLayout);
         textView.setText(this.CurrentPlayer.getName());
     }
-
-
 }

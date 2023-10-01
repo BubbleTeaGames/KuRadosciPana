@@ -82,6 +82,6 @@ public class Paws {
 
     public double getRowPawn(){
         double RowPawn = quantityRow-((actualPositoin)/(quantityCol));
-        return Math.ceil(4.3);
+        return Math.ceil(RowPawn);
     }
 }
