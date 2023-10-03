@@ -1,9 +1,13 @@
 package com.example.ukladajzwyciezaj;
 
 import android.content.Context;
+import android.content.Intent;
 import android.widget.GridView;
 
+import com.example.ukladajzwyciezaj.Activites.FinishActivity;
 import com.example.ukladajzwyciezaj.Activites.GameActivity;
+import com.example.ukladajzwyciezaj.Activites.InstructionActivity;
+import com.example.ukladajzwyciezaj.Activites.MainActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -109,9 +113,31 @@ public class Game {
         return scores;
     }
 
+    public Card getRandomCard(){
+        Card randomCard = this.pileOfCards.getRandomKartToGame();
+        if (randomCard == null){
+            Intent intent = new Intent(this.context, FinishActivity.class);
+            intent.putStringArrayListExtra("Ranki", getFinallyRankingPlayer(calculateScores()));
+            context.startActivity(intent);
+        }
+        return randomCard;
+    }
+
     private double getRowCard(int position){
         double rowCard = this.numRowCardContainer-((position)/(this.numColCardContainer));
         return Math.ceil(rowCard);
+    }
+
+    public ArrayList<String> getFinallyRankingPlayer(HashMap<Player, Integer> playerPunctation){
+        List<Map.Entry<Player, Integer>> list = new ArrayList<>(playerPunctation.entrySet());
+
+        list.sort((entry1, entry2) -> entry1.getValue().compareTo(entry2.getValue()));
+
+        ArrayList<String> result = new ArrayList<>();
+        for (Map.Entry<Player, Integer> entry : list){
+            result.add(entry.getKey().getName());
+        }
+        return result;
     }
 
 }

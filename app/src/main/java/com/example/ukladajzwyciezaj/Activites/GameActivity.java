@@ -22,6 +22,9 @@ import com.example.ukladajzwyciezaj.R;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import kotlin.Pair;
 
@@ -80,6 +83,7 @@ public class GameActivity extends AppCompatActivity {
                 Toast.makeText(getBaseContext(),"Wybrano kartę nr"+(position+1), Toast.LENGTH_SHORT).show();
                 if (chosen_card != null && game.getTurn().checkPossiblityMovement(CurrentPlayer)) {
                     ImageView chosen_imageView = chosen_card.getImageView();
+                    CurrentPlayer.getCardInHeand().remove(chosen_card);
                     CurrentVIewPlayer.EnterCardToPlay(cardsContainer, chosen_card, position);
                     CurrentVIewPlayer.getImageAdapter().notifyDataSetChanged();
                     LinearLayout linearLayout1 = findViewById(R.id.linearLayout);
@@ -127,7 +131,7 @@ public class GameActivity extends AppCompatActivity {
     private void createGame() {
         ArrayList<String> playerNames = getPlayersNames();
         try {
-            game = new Game(this,this, playerNames, 10, 8);
+            game = new Game(this,this, playerNames, 10, 8);     // !!! wartości nie dynamiczne
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

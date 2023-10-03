@@ -46,24 +46,16 @@ public class Player {
         this.paws = new Paws(context, numRow, numCol);
     }
 
+    public ArrayList<Card> getCardInHeand() {
+        return cardInHeand;
+    }
+
     public Context getContext() {
         return context;
     }
 
-    public PileOfCards getPileOfKart() {
-        return pileOfCards;
-    }
-
-    public ImageView[] getPlaceToKartImageVIew() {
-        return placeToKartImageVIew;
-    }
-
     public Paws getPaws() {
         return paws;
-    }
-
-    public void setPileOfKart(PileOfCards pileOfCards) {
-        this.pileOfCards = pileOfCards;
     }
 
     public HashMap<Integer, Card> getPositionKart() {
@@ -78,10 +70,6 @@ public class Player {
         return imageAdapter;
     }
 
-    public void setImageAdapter(ImageAdapter imageAdapter) {
-        this.imageAdapter = imageAdapter;
-    }
-
     public ForwardingAttack getInformationAttack() {
         return informationAttack;
     }
@@ -90,11 +78,11 @@ public class Player {
         int Childcount = this.cardInHeand.size();
         if (Childcount < 2 ) {
             while (Childcount < 3) {
-                if (game.getPileOfKart().size() < 1){
-                    Toast.makeText(context,"Koniec kart w tali", Toast.LENGTH_SHORT).show();
-                    break;
-                }
-                Card card = game.getPileOfKart().getRandomKartToGame();
+                //if (game.getPileOfKart().size() < 1){
+                //    Toast.makeText(context,"Koniec kart w tali", Toast.LENGTH_SHORT).show();
+                //    break;
+                //}
+                Card card = game.getRandomCard();
                 this.cardInHeand.add(card);
                 Childcount = this.cardInHeand.size();
             }
