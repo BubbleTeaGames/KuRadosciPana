@@ -28,6 +28,7 @@ public class Game {
     private Turn turn;
     private Integer numColCardContainer;
     private Integer numRowCardContainer;
+    private GameActivity gameActivity;
     public Game(Context context, GameActivity gameActivity, ArrayList<String> playerNames, Integer numCol, Integer numRow) throws IOException {
         this.pileOfCards = new PileOfCards(context, gameActivity);
         this.players = new ArrayList<>();
@@ -45,6 +46,7 @@ public class Game {
         this.currentPlayerIndex = 0;
         this.context = context;
         this.turn = new Turn(this.players, 2, 1);
+        this.gameActivity = gameActivity;
     }
 
     public PileOfCards getPileOfKart() {
@@ -86,7 +88,8 @@ public class Game {
 
                     for (Pair<Player, Integer> toBeRemoved : cardsToBeRemoved){
                         toBeRemoved.getFirst().deleteKart(toBeRemoved.getSecond());
-                        toBeRemoved.getFirst().getImageAdapter().changeFirstImage(R.drawable.grafika_karty, toBeRemoved.getSecond());
+                        cardsToBeRemoved.remove(toBeRemoved);
+                        //toBeRemoved.getFirst().getImageAdapter().changeFirstImage(R.drawable.grafika_karty, toBeRemoved.getSecond());
                     }
                 }
             }
@@ -100,7 +103,12 @@ public class Game {
             scores.put(player, 0);
         }
         for (Player player : this.players) {
-            double multiplierPoint = player.getPaws().getRowPawn() - 1;
+            double multiplierPoint;
+            if (player.getPaws().pawsInBoard()) {
+                multiplierPoint = player.getPaws().getRowPawn() - 1;
+            }else {
+                multiplierPoint = 1;
+            }
             HashMap<Integer, Card> positionCard = player.getPositionKart();
             for (Map.Entry<Integer, Card> entry : positionCard.entrySet()){
                 int rowCard = (int) getRowCard(entry.getKey());
@@ -116,9 +124,11 @@ public class Game {
     public Card getRandomCard(){
         Card randomCard = this.pileOfCards.getRandomKartToGame();
         if (randomCard == null){
-            Intent intent = new Intent(this.context, FinishActivity.class);
-            intent.putStringArrayListExtra("Ranki", getFinallyRankingPlayer(calculateScores()));
-            context.startActivity(intent);
+            Intent intent = new Intent(gameActivity, FinishActivity.class);
+            HashMap<Player, Integer> scores = calculateScores();
+            ArrayList<String> finallyRankingPlayer = getFinallyRankingPlayer(scores);
+            intent.putStringArrayListExtra("Ranking", finallyRankingPlayer);
+            gameActivity.startActivity(intent);
         }
         return randomCard;
     }

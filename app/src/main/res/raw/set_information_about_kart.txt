@@ -1,7 +1,10 @@
-------name-----;-----right------;-----bottom-----;-----left-----;------top------;----punctation------;
-kart_left_attack_right_defence;DEFENSE;NEUTRAL;ATTACK;NEUTRAL;2
-topdefence_bottom_defence;NEUTRAL;DEFENSE;NEUTRAL;DEFENSE;4
-right_doble_attack;DOUBLE_ATTACK;NEUTRAL;NEUTRAL;NEUTRAL;1
-kart_left_attack_right_defence;DEFENSE;NEUTRAL;ATTACK;NEUTRAL;3
-topdefence_bottom_defence;NEUTRAL;DEFENSE;NEUTRAL;DEFENSE;2
-right_doble_attack;DOUBLE_ATTACK;NEUTRAL;NEUTRAL;NEUTRAL;1
+---name---;---right---;---bottom---;---left---;---top---;--punctation--;
+kart_left_attack_right_defence;DEFENSE;NEUTRAL;ATTACK;NEUTRAL;2;ordinary
+topdefence_bottom_defence;NEUTRAL;DEFENSE;NEUTRAL;DEFENSE;4;ordinary
+right_doble_attack;DOUBLE_ATTACK;NEUTRAL;NEUTRAL;NEUTRAL;1;ordinary
+kart_left_attack_right_defence;DEFENSE;NEUTRAL;ATTACK;NEUTRAL;3;ordinary
+topdefence_bottom_defence;NEUTRAL;DEFENSE;NEUTRAL;DEFENSE;2;ordinary
+right_doble_attack;DOUBLE_ATTACK;NEUTRAL;NEUTRAL;NEUTRAL;1;ordinary
+right_doble_attack;DOUBLE_ATTACK;NEUTRAL;NEUTRAL;NEUTRAL;1;ordinary
+down_doble_attack_rotating;NEUTRAL;DOUBLE_ATTACK;NEUTRAL;NEUTRAL;1;rotating;down_doble_attack_rotating_after_rotating
+left_attack_ninja;NEUTRAL;NEUTRAL;ATTACK;NEUTRAL;1;ninja;left_attack_ninja_curtain

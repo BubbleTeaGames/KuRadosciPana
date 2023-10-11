@@ -1,17 +1,24 @@
 package com.example.ukladajzwyciezaj;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.example.ukladajzwyciezaj.Activites.GameActivity;
 
 import java.util.HashMap;
 
 public class Card {
     private HashMap<SideAttack, CardInfuence> ValueAttack;
     private ImageView imageView;
-    int ImageResource;
+    private int ImageResource;
     private int puntaction;
+    private GameActivity gameActivity;
+    protected Context context;
 
-    public Card(CardInfuence left, CardInfuence right, CardInfuence top, CardInfuence bottom, ImageView imageView, int imageResource, int puntaction){
+    public Card(CardInfuence left, CardInfuence right, CardInfuence top, CardInfuence bottom,
+                ImageView imageView, int imageResource, int puntaction, GameActivity gameActivity, Context context){
         this.ValueAttack = new HashMap<>();
         this.ImageResource = imageResource;
         this.ValueAttack.put(SideAttack.RIGHT, right);
@@ -20,11 +27,9 @@ public class Card {
         this.ValueAttack.put(SideAttack.BOTTOM, bottom);
         this.imageView = imageView;
         this.puntaction = puntaction;
-    }
-
-    public Card setOnClickListener(View.OnClickListener listener) {
-        imageView.setOnClickListener(listener);
-        return this;
+        this.gameActivity = gameActivity;
+        this.context = context;
+        this.setOnClick();
     }
 
     public int getPuntaction() {
@@ -35,23 +40,44 @@ public class Card {
         return ValueAttack;
     }
 
-    public void setValueAttack(HashMap<SideAttack, CardInfuence> valueAttack) {
-        ValueAttack = valueAttack;
-    }
-
-    public int getImageResource() {
-        return ImageResource;
-    }
-
-    public void setImageResource(int imageResource) {
-        ImageResource = imageResource;
-    }
-
-    public void setImageView(ImageView imageView) {
-        this.imageView = imageView;
-    }
-
-    public ImageView getImageView() {
+    public ImageView getImageViewToBoard() {
         return imageView;
+    }
+    public ImageView getImageViewToCardsInHand(){
+        return imageView;
+    }
+    @FunctionalInterface
+    protected interface functionDelete{
+        void instructionDelete(ForwardingAttack informationAttack, HashMap<Integer, Card> positionKart, int position, int numCol, Player.ImageAdapter adapter);
+    }
+    public functionDelete getFunctionDelete(){
+        functionDelete delete = new functionDelete() {
+            @Override
+            public void instructionDelete(ForwardingAttack informationAttack, HashMap<Integer, Card> positionKart, int position, int numCol, Player.ImageAdapter adapter) {
+                informationAttack.RemoveAttack(position-1, SideAttack.LEFT);
+                informationAttack.RemoveAttack(position+1, SideAttack.RIGHT);
+                informationAttack.RemoveAttack(position+numCol, SideAttack.BOTTOM);
+                informationAttack.RemoveAttack(position-numCol, SideAttack.TOP);
+                positionKart.remove(position);
+                adapter.changeFirstImage(R.drawable.grafika_karty, position);
+            }
+        };
+
+        return delete;
+    }
+
+    public void setOnClick(){
+        setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context,"Wybrano kartę do wstawienia", Toast.LENGTH_SHORT).show();
+                gameActivity.setChosenKart(Card.this);
+            }
+        });
+    }
+
+    public Card setOnClickListener(View.OnClickListener listener) {
+        imageView.setOnClickListener(listener);
+        return this;
     }
 }

@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class Player {
-    private PileOfCards pileOfCards;
     private ForwardingAttack informationAttack;
     private HashMap<Integer, Card> positionKart;
     private ImageView[] placeToKartImageVIew = new ImageView[80];
@@ -29,7 +28,6 @@ public class Player {
 
 
     public Player(Context context, String name, Game game,int numRow, int numCol) throws IOException {
-        //this.pileOfKart = new PileOfKart(context);
         this.positionKart = new HashMap<>();
         this.informationAttack = new ForwardingAttack();
         this.context = context;
@@ -94,7 +92,7 @@ public class Player {
     public void SetViewLinearlayout(LinearLayout linearLayout){
         linearLayout.removeAllViews();
         for(int i = 0; i<this.cardInHeand.size(); i++){
-            linearLayout.addView(this.cardInHeand.get(i).getImageView());
+            linearLayout.addView(this.cardInHeand.get(i).getImageViewToCardsInHand());
         }
     }
 
@@ -114,7 +112,7 @@ public class Player {
         int numCol = gridView.getNumColumns();
         position = getPositionCardAfterGravitation(gridView, position);
         this.positionKart.put(position, kart);
-        this.placeToKartImageVIew[position] = kart.getImageView();
+        this.placeToKartImageVIew[position] = kart.getImageViewToBoard();
         HashMap<SideAttack, CardInfuence> attackKart = kart.getValueAttack();
         this.informationAttack.SaveAttack(attackKart.get(SideAttack.RIGHT),position+1, SideAttack.RIGHT);
         this.informationAttack.SaveAttack(attackKart.get(SideAttack.LEFT),position-1, SideAttack.LEFT);
@@ -124,16 +122,14 @@ public class Player {
     }
 
     public void deleteKart(int position){
-        this.positionKart.remove(position);
         GridView gridView1 = ((Activity) context).findViewById(R.id.gridview);
         int numCol = gridView1.getNumColumns();
-        this.informationAttack.RemoveAttack(position-1, SideAttack.LEFT);
-        this.informationAttack.RemoveAttack(position+1, SideAttack.RIGHT);
-        this.informationAttack.RemoveAttack(position+numCol, SideAttack.BOTTOM);
-        this.informationAttack.RemoveAttack(position-numCol, SideAttack.TOP);
+        Card cardToRemove = this.positionKart.get(position);
+        if (cardToRemove != null) {
+            Card.functionDelete deleteFunction = cardToRemove.getFunctionDelete();
+            deleteFunction.instructionDelete(informationAttack, positionKart, position, numCol, imageAdapter);
+        }
     }
-
-
 
     public class ImageAdapter extends BaseAdapter{
         @Override

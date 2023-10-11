@@ -47,5 +47,4 @@ public class ListInstructionAdapter extends ArrayAdapter {
         return rowVIew;
     };
 
-
 }

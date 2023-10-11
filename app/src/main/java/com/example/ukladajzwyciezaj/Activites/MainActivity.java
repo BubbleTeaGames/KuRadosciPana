@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         }else {
             Intent intent = new Intent(MainActivity.this, GameActivity.class);
             ArrayList<String> NamePlayersList = new ArrayList<>(NamePlayers);
-            intent.putStringArrayListExtra("NamePlayers",NamePlayersList);
+            intent.putStringArrayListExtra("NamePlayers", NamePlayersList);
             startActivity(intent);
         }
     }

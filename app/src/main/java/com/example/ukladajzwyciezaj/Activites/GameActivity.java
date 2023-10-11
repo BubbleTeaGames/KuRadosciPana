@@ -81,15 +81,14 @@ public class GameActivity extends AppCompatActivity {
         {
             public  void onItemClick(AdapterView parent, View v, int position, long id){
                 Toast.makeText(getBaseContext(),"Wybrano kartę nr"+(position+1), Toast.LENGTH_SHORT).show();
-                if (chosen_card != null && game.getTurn().checkPossiblityMovement(CurrentPlayer)) {
-                    ImageView chosen_imageView = chosen_card.getImageView();
+                if (chosen_card != null && game.getTurn().checkPossiblityMovement(CurrentPlayer) && !CurrentVIewPlayer.getPositionKart().containsKey(position)) {
+                    ImageView chosen_imageView = chosen_card.getImageViewToCardsInHand();
                     CurrentPlayer.getCardInHeand().remove(chosen_card);
                     CurrentVIewPlayer.EnterCardToPlay(cardsContainer, chosen_card, position);
                     CurrentVIewPlayer.getImageAdapter().notifyDataSetChanged();
                     LinearLayout linearLayout1 = findViewById(R.id.linearLayout);
                     linearLayout1.removeView(chosen_imageView);
                     game.getTurn().addMoveInTour(CurrentPlayer);
-
                     chosen_card = null;
                 } else if ((buttonPawnEnable) && (CurrentPlayer == CurrentVIewPlayer) && (game.getTurn().checkPossibilityMovementPawn(CurrentPlayer))) {
                     CurrentPlayer.getPaws().movePaws(position, CurrentPlayer.getPositionKart());
@@ -139,15 +138,19 @@ public class GameActivity extends AppCompatActivity {
 
     public void completeCartInHeand(View v){
         LinearLayout linearLayout = findViewById(R.id.linearLayout);
-        if(CurrentVIewPlayer!=null) {
-            CurrentVIewPlayer.completeCartInHeand(game);
-            CurrentVIewPlayer.SetViewLinearlayout(linearLayout);
+        if(CurrentPlayer!=null) {
+            CurrentPlayer.completeCartInHeand(game);
+            CurrentPlayer.SetViewLinearlayout(linearLayout);
         }
     }
 
-    public void OnclickButtonEndTurn(View v){
+    public void OnclickButtonChancePawn(View v){
         this.buttonPawnEnable = !buttonPawnEnable;
         this.chosen_card = null;
+    }
+
+    public void OnclickButtonBattle(View v){
+        ArrayList<Pair<Player, Integer>> a = game.battle();
     }
 
     public void OnClickButtonNextPlayer(View v){
