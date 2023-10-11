@@ -150,7 +150,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void OnclickButtonBattle(View v){
-        ArrayList<Pair<Player, Integer>> a = game.battle();
+        //ArrayList<Pair<Player, Integer>> a = game.battle();
     }
 
     public void OnClickButtonNextPlayer(View v){
