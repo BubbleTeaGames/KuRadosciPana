@@ -42,6 +42,7 @@ public class GameActivity extends AppCompatActivity {
     public void setChosenKart(Card chosen_card) {
         this.chosen_card = chosen_card;
     }
+    public GridView cardContainers;
 
     String[] opcje = {"Opcja 1", "Opcja 2", "Opcja 3", "Opcja 4"};
 
@@ -56,6 +57,7 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         GridView cardsContainer = findViewById(R.id.gridview);
         LinearLayout listPlayer = findViewById(R.id.ListPlayer);
+        this.cardContainers = cardsContainer;
 
         createGame();
 
@@ -81,10 +83,10 @@ public class GameActivity extends AppCompatActivity {
         {
             public  void onItemClick(AdapterView parent, View v, int position, long id){
                 Toast.makeText(getBaseContext(),"Wybrano kartę nr"+(position+1), Toast.LENGTH_SHORT).show();
-                if (chosen_card != null && game.getTurn().checkPossiblityMovement(CurrentPlayer) && !CurrentVIewPlayer.getPositionKart().containsKey(position)) {
+                if (chosen_card != null && game.getTurn().checkPossiblityMovement(CurrentPlayer) && chosen_card.possibilityCoveredCard(CurrentVIewPlayer, position)) {
                     ImageView chosen_imageView = chosen_card.getImageViewToCardsInHand();
                     CurrentPlayer.getCardInHeand().remove(chosen_card);
-                    CurrentVIewPlayer.EnterCardToPlay(cardsContainer, chosen_card, position);
+                    CurrentVIewPlayer.EnterCardToPlay(chosen_card, position);
                     CurrentVIewPlayer.getImageAdapter().notifyDataSetChanged();
                     LinearLayout linearLayout1 = findViewById(R.id.linearLayout);
                     linearLayout1.removeView(chosen_imageView);
@@ -125,6 +127,10 @@ public class GameActivity extends AppCompatActivity {
                 // Obsługa przypadku, gdy nic nie jest wybrane
             }
         });
+    }
+
+    public GridView getCardContainers() {
+        return cardContainers;
     }
 
     private void createGame() {

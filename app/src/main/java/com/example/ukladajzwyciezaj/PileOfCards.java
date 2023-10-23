@@ -1,13 +1,14 @@
 package com.example.ukladajzwyciezaj;
 import android.content.Context;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.ukladajzwyciezaj.Activites.GameActivity;
-import com.example.ukladajzwyciezaj.UI.RotatingCard;
+import com.example.ukladajzwyciezaj.CardChildren.ClaustrophobiaCard;
+import com.example.ukladajzwyciezaj.CardChildren.CoveredCard;
+import com.example.ukladajzwyciezaj.CardChildren.KillerCard;
+import com.example.ukladajzwyciezaj.CardChildren.RotatingCard;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -66,7 +67,7 @@ public class PileOfCards {
         return null;
     }
 
-    public Card makeCard(String[] informationAboutCard){
+    public Card makeCard(String[] informationAboutCard) {
         ImageView KartView = new ImageView(context);
         int resId = this.context.getResources().getIdentifier(informationAboutCard[0],
                 "drawable", context.getPackageName());
@@ -79,27 +80,41 @@ public class PileOfCards {
 
         KartView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 
-       if (informationAboutCard[6].equals("rotating")) {
-           int resIdArterRotatin = this.context.getResources().getIdentifier(informationAboutCard[7],
-                   "drawable", context.getPackageName());
-           Card card = new RotatingCard(CardInfuence.valueOf(informationAboutCard[3]),
-                   CardInfuence.valueOf(informationAboutCard[1]),
-                   CardInfuence.valueOf(informationAboutCard[2]), CardInfuence.valueOf(informationAboutCard[4]),
-                   KartView, resId, Integer.valueOf(informationAboutCard[5]), resIdArterRotatin, gameActivity, context);
-           return card;
-       } else if (informationAboutCard[6].equals("ninja")) {
-           int resIdCurtain = this.context.getResources().getIdentifier(informationAboutCard[7],
-                   "drawable", context.getPackageName());
-           Card card = new CoveredCard(CardInfuence.valueOf(informationAboutCard[3]),
-                   CardInfuence.valueOf(informationAboutCard[1]),
-                   CardInfuence.valueOf(informationAboutCard[2]), CardInfuence.valueOf(informationAboutCard[4]),
-                   KartView, resId, Integer.valueOf(informationAboutCard[5]), resIdCurtain, gameActivity, context);
-           return card;
-       } else {
+        boolean weakling = !informationAboutCard[7].equals("false");
+
+        if (informationAboutCard[6].equals("rotating")) {
+            int resIdArterRotatin = this.context.getResources().getIdentifier(informationAboutCard[8],
+                    "drawable", context.getPackageName());
+            Card card = new RotatingCard(CardInfuence.valueOf(informationAboutCard[3]),
+                    CardInfuence.valueOf(informationAboutCard[1]),
+                    CardInfuence.valueOf(informationAboutCard[2]), CardInfuence.valueOf(informationAboutCard[4]),
+                    KartView, resId, Integer.valueOf(informationAboutCard[5]), resIdArterRotatin, gameActivity, context, weakling);
+            return card;
+        } else if (informationAboutCard[6].equals("ninja")) {
+            int resIdCurtain = this.context.getResources().getIdentifier(informationAboutCard[8],
+                    "drawable", context.getPackageName());
+            Card card = new CoveredCard(CardInfuence.valueOf(informationAboutCard[3]),
+                    CardInfuence.valueOf(informationAboutCard[1]),
+                    CardInfuence.valueOf(informationAboutCard[2]), CardInfuence.valueOf(informationAboutCard[4]),
+                    KartView, resId, Integer.valueOf(informationAboutCard[5]), resIdCurtain, gameActivity, context, weakling);
+            return card;
+        } else if (informationAboutCard[6].equals("killer")) {
+            Card card = new KillerCard(CardInfuence.valueOf(informationAboutCard[3]),
+                    CardInfuence.valueOf(informationAboutCard[1]), CardInfuence.valueOf(informationAboutCard[2]),
+                    CardInfuence.valueOf(informationAboutCard[4]), KartView, resId,
+                    Integer.valueOf(informationAboutCard[5]), gameActivity, context, weakling);
+            return card;
+        } else if (informationAboutCard[6].equals("claustrophobia")) {
+            Card card = new ClaustrophobiaCard(CardInfuence.valueOf(informationAboutCard[3]),
+                    CardInfuence.valueOf(informationAboutCard[1]), CardInfuence.valueOf(informationAboutCard[2]),
+                    CardInfuence.valueOf(informationAboutCard[4]), KartView, resId,
+                    Integer.valueOf(informationAboutCard[5]), gameActivity, context, weakling);
+            return card;
+        } else {
             Card card = new Card(CardInfuence.valueOf(informationAboutCard[3]),
                     CardInfuence.valueOf(informationAboutCard[1]), CardInfuence.valueOf(informationAboutCard[2]),
                     CardInfuence.valueOf(informationAboutCard[4]), KartView, resId,
-                    Integer.valueOf(informationAboutCard[5]), gameActivity, context);
+                    Integer.valueOf(informationAboutCard[5]), gameActivity, context, weakling);
             return card;
         }
     }

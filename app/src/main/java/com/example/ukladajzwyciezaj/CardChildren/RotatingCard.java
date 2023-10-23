@@ -1,4 +1,4 @@
-package com.example.ukladajzwyciezaj.UI;
+package com.example.ukladajzwyciezaj.CardChildren;
 
 import android.content.Context;
 import android.widget.ImageView;
@@ -22,8 +22,8 @@ public class RotatingCard extends Card {
 
     public RotatingCard(CardInfuence left, CardInfuence right, CardInfuence top,
                         CardInfuence bottom, ImageView imageView, int imageResource,
-                        int puntaction, int afterRotationResource, GameActivity gameActivity, Context context){
-        super(left, right, top, bottom, imageView, imageResource, puntaction, gameActivity, context);
+                        int puntaction, int afterRotationResource, GameActivity gameActivity, Context context, boolean weakling){
+        super(left, right, top, bottom, imageView, imageResource, puntaction, gameActivity, context, weakling);
         this.possibilityRotation = true;
         this.afterRotationResource = afterRotationResource;
         this.setOnClick();

@@ -16,9 +16,10 @@ public class Card {
     private int puntaction;
     private GameActivity gameActivity;
     protected Context context;
+    private boolean weakling;
 
     public Card(CardInfuence left, CardInfuence right, CardInfuence top, CardInfuence bottom,
-                ImageView imageView, int imageResource, int puntaction, GameActivity gameActivity, Context context){
+                ImageView imageView, int imageResource, int puntaction, GameActivity gameActivity, Context context, boolean weakling){
         this.ValueAttack = new HashMap<>();
         this.ImageResource = imageResource;
         this.ValueAttack.put(SideAttack.RIGHT, right);
@@ -30,6 +31,11 @@ public class Card {
         this.gameActivity = gameActivity;
         this.context = context;
         this.setOnClick();
+        this.weakling = weakling;
+    }
+
+    public boolean isWeakling() {
+        return weakling;
     }
 
     public int getPuntaction() {
@@ -62,7 +68,6 @@ public class Card {
                 adapter.changeFirstImage(R.drawable.grafika_karty, position);
             }
         };
-
         return delete;
     }
 
@@ -79,5 +84,9 @@ public class Card {
     public Card setOnClickListener(View.OnClickListener listener) {
         imageView.setOnClickListener(listener);
         return this;
+    }
+
+    public boolean possibilityCoveredCard(Player CurrentVIewPlayer, int position){
+        return !CurrentVIewPlayer.getPositionKart().containsKey(position);
     }
 }

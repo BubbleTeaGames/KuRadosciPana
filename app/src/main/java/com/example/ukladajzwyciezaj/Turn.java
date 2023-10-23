@@ -1,7 +1,12 @@
 package com.example.ukladajzwyciezaj;
 
+import android.widget.GridView;
+
+import com.example.ukladajzwyciezaj.CardChildren.ClaustrophobiaCard;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Turn {
@@ -12,7 +17,8 @@ public class Turn {
     private HashMap<Player, Integer> availablePawnMoves;
     private ArrayList<Player> players;
     private int currentPlayerIndex;
-    public Turn(ArrayList<Player> players, int maxMoves, int maxPawnMoves){
+    private Gravitation gravitation;
+    public Turn(ArrayList<Player> players, int maxMoves, int maxPawnMoves, GridView cardContainer){
         this.availableCardMoves = new HashMap<>();
         this.availablePawnMoves = new HashMap<>();
         this.actualTurn = 0;
@@ -20,6 +26,7 @@ public class Turn {
             this.availableCardMoves.put(player, 0);
             this.availablePawnMoves.put(player, 0);
         }
+        this.gravitation = new Gravitation(cardContainer);
         this.maxMoves = maxMoves;
         this.currentPlayerIndex = 0;
         this.players = players;
@@ -66,6 +73,8 @@ public class Turn {
     }
 
     public Player getNextPlayer(){
+        checkAfterMovePlayer();
+        gravitation.gravitationWeakling(players.get(currentPlayerIndex));
         if (this.currentPlayerIndex >= this.players.size()-1){
             this.currentPlayerIndex = 0;
             this.nextTurn();
@@ -73,5 +82,27 @@ public class Turn {
             this.currentPlayerIndex = this.currentPlayerIndex +1;
         }
         return this.players.get(this.currentPlayerIndex);
+    }
+
+
+    public void checkClaustrophobiaCards(){
+        Player checkPlayer = players.get(currentPlayerIndex);
+        List<Integer> toRemove = new ArrayList<>();
+        HashMap<Integer, Card> positionCards = checkPlayer.getPositionKart();
+        for (Map.Entry<Integer, Card> positionCard : positionCards.entrySet()){
+            if (positionCard.getValue() instanceof ClaustrophobiaCard){
+                ClaustrophobiaCard.checkIfHeIsCornered checkFunction = ((ClaustrophobiaCard) positionCard.getValue()).getCheckIfHeIsCornered();
+                if (checkFunction.instructionCheckIfHeIsCornered(positionCards, 10, 8, positionCard.getKey())){
+                    toRemove.add(positionCard.getKey());
+                }
+            }
+        }
+        for (Integer position : toRemove){
+            checkPlayer.reactionToAttack(position);
+        }
+    }
+
+    public void checkAfterMovePlayer(){
+        checkClaustrophobiaCards();
     }
 }

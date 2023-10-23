@@ -2,12 +2,9 @@ package com.example.ukladajzwyciezaj;
 
 import android.content.Context;
 import android.content.Intent;
-import android.widget.GridView;
 
 import com.example.ukladajzwyciezaj.Activites.FinishActivity;
 import com.example.ukladajzwyciezaj.Activites.GameActivity;
-import com.example.ukladajzwyciezaj.Activites.InstructionActivity;
-import com.example.ukladajzwyciezaj.Activites.MainActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,6 +26,7 @@ public class Game {
     private Integer numColCardContainer;
     private Integer numRowCardContainer;
     private GameActivity gameActivity;
+
     public Game(Context context, GameActivity gameActivity, ArrayList<String> playerNames, Integer numCol, Integer numRow) throws IOException {
         this.pileOfCards = new PileOfCards(context, gameActivity);
         this.players = new ArrayList<>();
@@ -37,7 +35,7 @@ public class Game {
 
         for (String playerName : playerNames) {
             try {
-                Player player = new Player(context, playerName, this, numRow, numCol);
+                Player player = new Player(context, playerName, this, numRow, numCol, gameActivity);
                 this.players.add(player);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -45,7 +43,7 @@ public class Game {
         }
         this.currentPlayerIndex = 0;
         this.context = context;
-        this.turn = new Turn(this.players, 2, 1);
+        this.turn = new Turn(this.players, 2, 1, gameActivity.getCardContainers());
         this.gameActivity = gameActivity;
     }
 
@@ -87,7 +85,7 @@ public class Game {
                     }
 
                     for (Pair<Player, Integer> toBeRemoved : cardsToBeRemoved){
-                        toBeRemoved.getFirst().deleteKart(toBeRemoved.getSecond());
+                        toBeRemoved.getFirst().reactionToAttack(toBeRemoved.getSecond());
                         cardsToBeRemoved.remove(toBeRemoved);
                         //toBeRemoved.getFirst().getImageAdapter().changeFirstImage(R.drawable.grafika_karty, toBeRemoved.getSecond());
                     }
