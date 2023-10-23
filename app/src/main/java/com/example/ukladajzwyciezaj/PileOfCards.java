@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import com.example.ukladajzwyciezaj.Activites.GameActivity;
 import com.example.ukladajzwyciezaj.CardChildren.ClaustrophobiaCard;
 import com.example.ukladajzwyciezaj.CardChildren.CoveredCard;
+import com.example.ukladajzwyciezaj.CardChildren.Fatty;
 import com.example.ukladajzwyciezaj.CardChildren.KillerCard;
 import com.example.ukladajzwyciezaj.CardChildren.RotatingCard;
 
@@ -110,7 +111,13 @@ public class PileOfCards {
                     CardInfuence.valueOf(informationAboutCard[4]), KartView, resId,
                     Integer.valueOf(informationAboutCard[5]), gameActivity, context, weakling);
             return card;
-        } else {
+        } else if (informationAboutCard[6].equals("fatty")) {
+            Card card = new Fatty(CardInfuence.valueOf(informationAboutCard[3]),
+                    CardInfuence.valueOf(informationAboutCard[1]), CardInfuence.valueOf(informationAboutCard[2]),
+                    CardInfuence.valueOf(informationAboutCard[4]), KartView, resId,
+                    Integer.valueOf(informationAboutCard[5]), gameActivity, context, weakling);
+            return card;
+        }else {
             Card card = new Card(CardInfuence.valueOf(informationAboutCard[3]),
                     CardInfuence.valueOf(informationAboutCard[1]), CardInfuence.valueOf(informationAboutCard[2]),
                     CardInfuence.valueOf(informationAboutCard[4]), KartView, resId,
