@@ -34,15 +34,11 @@ public class GameActivity extends AppCompatActivity {
     private Game game;
     private Player CurrentVIewPlayer = null;
     private Player CurrentPlayer = null;
-
-    public Card getChosenKart() {
-        return chosen_card;
-    }
+    private GridView cardContainers;
 
     public void setChosenKart(Card chosen_card) {
         this.chosen_card = chosen_card;
     }
-    public GridView cardContainers;
 
     String[] opcje = {"Opcja 1", "Opcja 2", "Opcja 3", "Opcja 4"};
 
