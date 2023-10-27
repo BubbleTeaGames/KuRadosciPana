@@ -4,14 +4,10 @@ import android.widget.GridView;
 
 import com.example.ukladajzwyciezaj.CardChildren.Fatty;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 import java.util.Comparator;
-
-import kotlin.Pair;
 
 public class Gravitation {
 

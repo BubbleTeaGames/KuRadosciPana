@@ -11,7 +11,7 @@ import java.util.Calendar;
 
 public class Fatty extends Card {
     public Fatty(CardInfuence left, CardInfuence right, CardInfuence top, CardInfuence bottom,
-                              ImageView imageView, int imageResource, int puntaction, GameActivity gameActivity, Context context, boolean weakling){
-        super(left, right, top, bottom, imageView, imageResource, puntaction, gameActivity, context, weakling);
+                              ImageView imageView, int imageResource, int puntaction, GameActivity gameActivity, Context context){
+        super(left, right, top, bottom, imageView, imageResource, puntaction, gameActivity, context, false);
     }
 }

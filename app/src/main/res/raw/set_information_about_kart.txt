@@ -12,3 +12,4 @@ killer;DEFENSE;DEFENSE;DEFENSE;DEFENSE;3;killer;false
 claustrophobia;DOUBLE_ATTACK;DOUBLE_ATTACK;NEUTRAL;NEUTRAL;2;claustrophobia;false
 fatty;NEUTRAL;NEUTRAL;ATTACK;ATTACK;3;fatty;false
 weakling;NEUTRAL;NEUTRAL;NEUTRAL;NEUTRAL;1;ordinary;true
+starveling;ATTACK;ATTACK;NEUTRAL;NEUTRAL;1;starveling;false

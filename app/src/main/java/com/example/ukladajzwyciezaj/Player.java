@@ -54,10 +54,6 @@ public class Player {
         return numCol;
     }
 
-    public GridView getCardContainers() {
-        return cardContainers;
-    }
-
     public ArrayList<Card> getCardInHeand() {
         return cardInHeand;
     }
@@ -112,14 +108,13 @@ public class Player {
 
     public int EnterCardToPlay(Card kart, Integer position){
         int numCol = cardContainers.getNumColumns();
-        //position = getPositionCardAfterGravitation(position);
         this.positionKart.put(position, kart);
         this.placeToKartImageVIew[position] = kart.getImageViewToBoard();
-        HashMap<SideAttack, CardInfuence> attackKart = kart.getValueAttack();
-        this.informationAttack.SaveAttack(attackKart.get(SideAttack.RIGHT),position+1, SideAttack.RIGHT);
-        this.informationAttack.SaveAttack(attackKart.get(SideAttack.LEFT),position-1, SideAttack.LEFT);
-        this.informationAttack.SaveAttack(attackKart.get(SideAttack.TOP),position - numCol, SideAttack.TOP);
-        this.informationAttack.SaveAttack(attackKart.get(SideAttack.BOTTOM),position + numCol, SideAttack.BOTTOM);
+        AttacksCard attackKart = kart.getAttacksCard();
+        this.informationAttack.SaveAttack(attackKart.getForSide(SideAttack.RIGHT),position+1, SideAttack.RIGHT);
+        this.informationAttack.SaveAttack(attackKart.getForSide(SideAttack.LEFT),position-1, SideAttack.LEFT);
+        this.informationAttack.SaveAttack(attackKart.getForSide(SideAttack.TOP),position - numCol, SideAttack.TOP);
+        this.informationAttack.SaveAttack(attackKart.getForSide(SideAttack.BOTTOM),position + numCol, SideAttack.BOTTOM);
         return position;
     }
 

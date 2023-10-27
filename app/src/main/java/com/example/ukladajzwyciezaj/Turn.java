@@ -3,6 +3,7 @@ package com.example.ukladajzwyciezaj;
 import android.widget.GridView;
 
 import com.example.ukladajzwyciezaj.CardChildren.ClaustrophobiaCard;
+import com.example.ukladajzwyciezaj.CardChildren.Starveling;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,6 +76,7 @@ public class Turn {
     public Player getNextPlayer(){
         checkAfterMovePlayer();
         gravitation.gravitationWeakling(players.get(currentPlayerIndex));
+
         if (this.currentPlayerIndex >= this.players.size()-1){
             this.currentPlayerIndex = 0;
             this.nextTurn();
@@ -85,14 +87,14 @@ public class Turn {
     }
 
 
-    public void checkClaustrophobiaCards(){
+    private void checkClaustrophobiaCards(){
         Player checkPlayer = players.get(currentPlayerIndex);
         List<Integer> toRemove = new ArrayList<>();
         HashMap<Integer, Card> positionCards = checkPlayer.getPositionKart();
         for (Map.Entry<Integer, Card> positionCard : positionCards.entrySet()){
             if (positionCard.getValue() instanceof ClaustrophobiaCard){
-                ClaustrophobiaCard.checkIfHeIsCornered checkFunction = ((ClaustrophobiaCard) positionCard.getValue()).getCheckIfHeIsCornered();
-                if (checkFunction.instructionCheckIfHeIsCornered(positionCards, 10, 8, positionCard.getKey())){
+                ClaustrophobiaCard c = (ClaustrophobiaCard) positionCard.getValue();
+                if (c.CheckIfHeIsCornered2(positionCards, 10, 8, positionCard.getKey())){
                     toRemove.add(positionCard.getKey());
                 }
             }
@@ -102,7 +104,27 @@ public class Turn {
         }
     }
 
+    private void checkStarvelingCard(){
+        Player checkPlayer = players.get(currentPlayerIndex);
+        List<Integer> toRemove = new ArrayList<>();
+        HashMap<Integer, Card> positionCards = checkPlayer.getPositionKart();
+        HashMap<Integer, Card> copyPositionCards = new HashMap<>(positionCards);
+        for (Map.Entry<Integer, Card> positionCard : copyPositionCards.entrySet()){
+            Card stravelingCard = positionCard.getValue();
+            if (stravelingCard instanceof Starveling){
+                List<Integer> attackPosition = ((Starveling) stravelingCard).getDestroyPosition(positionCard.getKey(), 10);
+                for (Integer position : attackPosition){
+                    if (positionCards.containsKey(position) && positionCards.get(position).isWeakling()){
+                        checkPlayer.reactionToAttack(position);
+                    }
+                }
+            }
+        }
+    }
+
+
     public void checkAfterMovePlayer(){
         checkClaustrophobiaCards();
+        checkStarvelingCard();
     }
 }

@@ -10,40 +10,37 @@ import com.example.ukladajzwyciezaj.Activites.GameActivity;
 import java.util.HashMap;
 
 public class Card {
-    private HashMap<SideAttack, CardInfuence> ValueAttack;
+    //private HashMap<SideAttack, CardInfuence> valueAttack;
     private ImageView imageView;
     private int ImageResource;
     private int puntaction;
     private GameActivity gameActivity;
     protected Context context;
-    private boolean weakling;
+    private boolean isWeakling;
+    protected AttacksCard attacksCard;
 
-    public Card(CardInfuence left, CardInfuence right, CardInfuence top, CardInfuence bottom,
+    public Card(CardInfuence left, CardInfuence right, CardInfuence bottom, CardInfuence top,
                 ImageView imageView, int imageResource, int puntaction, GameActivity gameActivity, Context context, boolean weakling){
-        this.ValueAttack = new HashMap<>();
         this.ImageResource = imageResource;
-        this.ValueAttack.put(SideAttack.RIGHT, right);
-        this.ValueAttack.put(SideAttack.LEFT, left);
-        this.ValueAttack.put(SideAttack.TOP, top);
-        this.ValueAttack.put(SideAttack.BOTTOM, bottom);
+        this.attacksCard = new AttacksCard(right, left, bottom, top);
         this.imageView = imageView;
         this.puntaction = puntaction;
         this.gameActivity = gameActivity;
         this.context = context;
         this.setOnClick();
-        this.weakling = weakling;
+        this.isWeakling = weakling;
+    }
+
+    public AttacksCard getAttacksCard() {
+        return attacksCard;
     }
 
     public boolean isWeakling() {
-        return weakling;
+        return isWeakling;
     }
 
     public int getPuntaction() {
         return puntaction;
-    }
-
-    public HashMap<SideAttack, CardInfuence> getValueAttack() {
-        return ValueAttack;
     }
 
     public ImageView getImageViewToBoard() {

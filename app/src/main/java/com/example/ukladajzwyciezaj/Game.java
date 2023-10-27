@@ -78,7 +78,7 @@ public class Game {
                         Card attackCard = player.getPositionKart().get(entry.getKey());
                         SideAttack SideToDefense = helpMetod.getSideToCheckDefense(player.getContext(), i);
 
-                        if ((entry.getValue() == powerAttack) && (attackCard.getValueAttack().get(SideToDefense) != CardInfuence.DEFENSE) ){
+                        if ((entry.getValue() == powerAttack) && (attackCard.getAttacksCard().getForSide(SideToDefense) != CardInfuence.DEFENSE) ){
                             Pair<Player, Integer> playerFiled = new Pair<>(player, entry.getKey());
                             cardsToBeRemoved.add(playerFiled);
                         }
