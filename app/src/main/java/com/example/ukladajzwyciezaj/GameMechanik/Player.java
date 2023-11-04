@@ -1,4 +1,4 @@
-package com.example.ukladajzwyciezaj;
+package com.example.ukladajzwyciezaj.GameMechanik;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,10 +17,16 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.ukladajzwyciezaj.Activites.GameActivity;
+import com.example.ukladajzwyciezaj.Card;
+import com.example.ukladajzwyciezaj.CardMechanik.AttacksCard;
+import com.example.ukladajzwyciezaj.CardMechanik.BasicCard;
+import com.example.ukladajzwyciezaj.CardMechanik.ForwardingAttack;
+import com.example.ukladajzwyciezaj.Enum.SideAttack;
+import com.example.ukladajzwyciezaj.R;
 
 public class Player {
     private ForwardingAttack informationAttack;
-    private HashMap<Integer, Card> positionKart;
+    private HashMap<Integer, BasicCard> positionKart;
     private ImageView[] placeToKartImageVIew = new ImageView[80];
     private Context context;
     private ImageAdapter imageAdapter;
@@ -33,7 +39,7 @@ public class Player {
 
     public Player(Context context, String name, Game game, int numRow, int numCol, GameActivity gameActivity) throws IOException {
         this.positionKart = new HashMap<>();
-        this.informationAttack = new ForwardingAttack();
+        this.informationAttack = new ForwardingAttack(numCol);
         this.context = context;
         this.Name = name;
         this.imageAdapter = new ImageAdapter();
@@ -66,7 +72,7 @@ public class Player {
         return paws;
     }
 
-    public HashMap<Integer, Card> getPositionKart() {
+    public HashMap<Integer, BasicCard> getPositionKart() {
         return positionKart;
     }
 
@@ -106,33 +112,33 @@ public class Player {
         }
     }
 
-    public int EnterCardToPlay(Card kart, Integer position){
+    public int EnterCardToPlay(BasicCard kart, Integer position){
         int numCol = cardContainers.getNumColumns();
         this.positionKart.put(position, kart);
         this.placeToKartImageVIew[position] = kart.getImageViewToBoard();
-        AttacksCard attackKart = kart.getAttacksCard();
-        this.informationAttack.SaveAttack(attackKart.getForSide(SideAttack.RIGHT),position+1, SideAttack.RIGHT);
-        this.informationAttack.SaveAttack(attackKart.getForSide(SideAttack.LEFT),position-1, SideAttack.LEFT);
-        this.informationAttack.SaveAttack(attackKart.getForSide(SideAttack.TOP),position - numCol, SideAttack.TOP);
-        this.informationAttack.SaveAttack(attackKart.getForSide(SideAttack.BOTTOM),position + numCol, SideAttack.BOTTOM);
+        AttacksCard attacksKart = kart.getAttacksCard();
+        this.informationAttack.SaveAttackFrom(attacksKart.getForSide(SideAttack.RIGHT), position, SideAttack.RIGHT);
+        this.informationAttack.SaveAttackFrom(attacksKart.getForSide(SideAttack.LEFT), position, SideAttack.LEFT);
+        this.informationAttack.SaveAttackFrom(attacksKart.getForSide(SideAttack.TOP), position, SideAttack.TOP);
+        this.informationAttack.SaveAttackFrom(attacksKart.getForSide(SideAttack.BOTTOM), position, SideAttack.BOTTOM);
         return position;
     }
 
     public void reactionToAttack(int position){
         GridView gridView1 = ((Activity) context).findViewById(R.id.gridview);
         int numCol = gridView1.getNumColumns();
-        Card cardToRemove = this.positionKart.get(position);
+        BasicCard cardToRemove = this.positionKart.get(position);
         if (cardToRemove != null) {
-            Card.functionDelete deleteFunction = cardToRemove.getFunctionDelete();
+            BasicCard.functionDelete deleteFunction = cardToRemove.getFunctionDelete();
             deleteFunction.instructionDelete(informationAttack, positionKart, position, numCol, imageAdapter);
         }
     }
 
     public void completeRemove(int position){
-        informationAttack.RemoveAttack(position-1, SideAttack.LEFT);
-        informationAttack.RemoveAttack(position+1, SideAttack.RIGHT);
-        informationAttack.RemoveAttack(position+numCol, SideAttack.BOTTOM);
-        informationAttack.RemoveAttack(position-numCol, SideAttack.TOP);
+        informationAttack.RemoveAttack(position, SideAttack.LEFT);
+        informationAttack.RemoveAttack(position, SideAttack.RIGHT);
+        informationAttack.RemoveAttack(position, SideAttack.BOTTOM);
+        informationAttack.RemoveAttack(position, SideAttack.TOP);
         positionKart.remove(position);
         imageAdapter.changeFirstImage(R.drawable.grafika_karty, position);
     }

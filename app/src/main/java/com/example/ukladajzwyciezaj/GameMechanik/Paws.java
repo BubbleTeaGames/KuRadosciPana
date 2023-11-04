@@ -1,7 +1,9 @@
-package com.example.ukladajzwyciezaj;
+package com.example.ukladajzwyciezaj.GameMechanik;
 
 import android.content.Context;
 import android.widget.Toast;
+
+import com.example.ukladajzwyciezaj.CardMechanik.BasicCard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +34,7 @@ public class Paws {
         }
     }
 
-    public void movePaws(int position, HashMap<Integer, Card> positionCards){
+    public void movePaws(int position, HashMap<Integer, BasicCard> positionCards){
         Integer newPlace;
         if (actualPositoin == null){
             newPlace = startPaws(position);
@@ -65,7 +67,7 @@ public class Paws {
         return allowedPosition;
     }
 
-    private Integer movement(int positoinToMove, HashMap<Integer, Card> positionCards){
+    private Integer movement(int positoinToMove, HashMap<Integer, BasicCard> positionCards){
         ArrayList<Integer> allowedPosition = getAllowedPosition();
         if (allowedPosition.contains(positoinToMove)){
             if (positionCards.containsKey(positoinToMove)) {

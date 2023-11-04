@@ -1,8 +1,9 @@
-package com.example.ukladajzwyciezaj;
+package com.example.ukladajzwyciezaj.CardMechanik;
 
 import android.widget.GridView;
 
 import com.example.ukladajzwyciezaj.CardChildren.Fatty;
+import com.example.ukladajzwyciezaj.GameMechanik.Player;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +18,7 @@ public class Gravitation {
         this.cardContainers = cardContainers;
     }
 
-    public int getPositionCardAfterGravitation(HashMap<Integer, Card> positionCard, int position){
+    public int getPositionCardAfterGravitation(HashMap<Integer, BasicCard> positionCard, int position){
         int numCol = cardContainers.getNumColumns();
         int numObject = cardContainers.getAdapter().getCount();
         int positionUnderCard = position + numCol;
@@ -29,10 +30,10 @@ public class Gravitation {
     }
 
     public void gravitationWeakling(Player player){
-        HashMap<Integer, Card> positionCard = player.getPositionKart();
-        HashMap<Integer, Card> copyPositionCard = new HashMap<>(positionCard);
-        Stream<Map.Entry<Integer, Card>> sortedCopyPositionCard = copyPositionCard.entrySet().stream()
-                .sorted(Map.Entry.<Integer, Card>comparingByKey(Comparator.reverseOrder()));
+        HashMap<Integer, BasicCard> positionCard = player.getPositionKart();
+        HashMap<Integer, BasicCard> copyPositionCard = new HashMap<>(positionCard);
+        Stream<Map.Entry<Integer, BasicCard>> sortedCopyPositionCard = copyPositionCard.entrySet().stream()
+                .sorted(Map.Entry.<Integer, BasicCard>comparingByKey(Comparator.reverseOrder()));
         sortedCopyPositionCard.forEach(position_card ->{
             int positionAfterGravitation = getPositionCardAfterGravitation(player.getPositionKart(), position_card.getKey());
             if (positionAfterGravitation != position_card.getKey() && position_card.getValue().isWeakling()){
@@ -50,10 +51,10 @@ public class Gravitation {
     }
 
     public void gravitationFatty(Player player){
-        HashMap<Integer, Card> positionCard = player.getPositionKart();
-        HashMap<Integer, Card> copyPositionCard = new HashMap<>(positionCard);
-        Stream<Map.Entry<Integer, Card>> sortedCopyPositionCard = copyPositionCard.entrySet().stream()
-                .sorted(Map.Entry.<Integer, Card>comparingByKey(Comparator.reverseOrder()));
+        HashMap<Integer, BasicCard> positionCard = player.getPositionKart();
+        HashMap<Integer, BasicCard> copyPositionCard = new HashMap<>(positionCard);
+        Stream<Map.Entry<Integer, BasicCard>> sortedCopyPositionCard = copyPositionCard.entrySet().stream()
+                .sorted(Map.Entry.<Integer, BasicCard>comparingByKey(Comparator.reverseOrder()));
         sortedCopyPositionCard.forEach(position_card ->{
             int positionAfterGravitation = getPositionCardAfterGravitation(player.getPositionKart(), position_card.getKey());
             if (position_card.getValue() instanceof Fatty && positionAfterGravitation != position_card.getKey()

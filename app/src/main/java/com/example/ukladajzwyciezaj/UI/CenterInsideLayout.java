@@ -1,4 +1,4 @@
-package com.example.ukladajzwyciezaj;
+package com.example.ukladajzwyciezaj.UI;
 
 import android.content.Context;
 import android.util.AttributeSet;

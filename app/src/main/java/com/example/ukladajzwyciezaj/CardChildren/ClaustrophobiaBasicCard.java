@@ -4,18 +4,18 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.example.ukladajzwyciezaj.Activites.GameActivity;
-import com.example.ukladajzwyciezaj.Card;
-import com.example.ukladajzwyciezaj.CardInfuence;
+import com.example.ukladajzwyciezaj.CardMechanik.BasicCard;
+import com.example.ukladajzwyciezaj.Enum.CardInfuence;
 
 import java.util.HashMap;
 
-public class ClaustrophobiaCard extends Card {
-    public ClaustrophobiaCard(CardInfuence left, CardInfuence right, CardInfuence top, CardInfuence bottom,
-                              ImageView imageView, int imageResource, int puntaction, GameActivity gameActivity, Context context, boolean weakling){
+public class ClaustrophobiaBasicCard extends BasicCard {
+    public ClaustrophobiaBasicCard(CardInfuence left, CardInfuence right, CardInfuence top, CardInfuence bottom,
+                                   ImageView imageView, int imageResource, int puntaction, GameActivity gameActivity, Context context, boolean weakling){
         super(left, right, top, bottom, imageView, imageResource, puntaction, gameActivity, context, weakling);
     }
 
-    public boolean CheckIfHeIsCornered2(HashMap<Integer, Card> positionCards, Integer numCol, Integer numRow, Integer position){
+    public boolean CheckIfHeIsCornered2(HashMap<Integer, BasicCard> positionCards, Integer numCol, Integer numRow, Integer position){
         Integer rightPlace = position+1;
         Integer leftPlace = position-1;
         Integer topPlace = position - numCol;

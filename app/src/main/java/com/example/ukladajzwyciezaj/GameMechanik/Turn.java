@@ -1,9 +1,11 @@
-package com.example.ukladajzwyciezaj;
+package com.example.ukladajzwyciezaj.GameMechanik;
 
 import android.widget.GridView;
 
-import com.example.ukladajzwyciezaj.CardChildren.ClaustrophobiaCard;
+import com.example.ukladajzwyciezaj.CardChildren.ClaustrophobiaBasicCard;
 import com.example.ukladajzwyciezaj.CardChildren.Starveling;
+import com.example.ukladajzwyciezaj.CardMechanik.BasicCard;
+import com.example.ukladajzwyciezaj.CardMechanik.Gravitation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -90,10 +92,10 @@ public class Turn {
     private void checkClaustrophobiaCards(){
         Player checkPlayer = players.get(currentPlayerIndex);
         List<Integer> toRemove = new ArrayList<>();
-        HashMap<Integer, Card> positionCards = checkPlayer.getPositionKart();
-        for (Map.Entry<Integer, Card> positionCard : positionCards.entrySet()){
-            if (positionCard.getValue() instanceof ClaustrophobiaCard){
-                ClaustrophobiaCard c = (ClaustrophobiaCard) positionCard.getValue();
+        HashMap<Integer, BasicCard> positionCards = checkPlayer.getPositionKart();
+        for (Map.Entry<Integer, BasicCard> positionCard : positionCards.entrySet()){
+            if (positionCard.getValue() instanceof ClaustrophobiaBasicCard){
+                ClaustrophobiaBasicCard c = (ClaustrophobiaBasicCard) positionCard.getValue();
                 if (c.CheckIfHeIsCornered2(positionCards, 10, 8, positionCard.getKey())){
                     toRemove.add(positionCard.getKey());
                 }
@@ -107,10 +109,10 @@ public class Turn {
     private void checkStarvelingCard(){
         Player checkPlayer = players.get(currentPlayerIndex);
         List<Integer> toRemove = new ArrayList<>();
-        HashMap<Integer, Card> positionCards = checkPlayer.getPositionKart();
-        HashMap<Integer, Card> copyPositionCards = new HashMap<>(positionCards);
-        for (Map.Entry<Integer, Card> positionCard : copyPositionCards.entrySet()){
-            Card stravelingCard = positionCard.getValue();
+        HashMap<Integer, BasicCard> positionCards = checkPlayer.getPositionKart();
+        HashMap<Integer, BasicCard> copyPositionCards = new HashMap<>(positionCards);
+        for (Map.Entry<Integer, BasicCard> positionCard : copyPositionCards.entrySet()){
+            BasicCard stravelingCard = positionCard.getValue();
             if (stravelingCard instanceof Starveling){
                 List<Integer> attackPosition = ((Starveling) stravelingCard).getDestroyPosition(positionCard.getKey(), 10);
                 for (Integer position : attackPosition){

@@ -16,28 +16,34 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ukladajzwyciezaj.Card;
-import com.example.ukladajzwyciezaj.Game;
-import com.example.ukladajzwyciezaj.Player;
+import com.example.ukladajzwyciezaj.CardMechanik.BasicCard;
+import com.example.ukladajzwyciezaj.FunctionCard.FunctionCard;
+import com.example.ukladajzwyciezaj.GameMechanik.Game;
+import com.example.ukladajzwyciezaj.GameMechanik.Player;
 import com.example.ukladajzwyciezaj.R;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import kotlin.Pair;
 
 public class GameActivity extends AppCompatActivity {
-    private Card chosen_card = null;
+    private BasicCard chosen_card = null;
     private boolean buttonPawnEnable = false;
     private Game game;
     private Player CurrentVIewPlayer = null;
     private Player CurrentPlayer = null;
     private GridView cardContainers;
+    private FunctionCard ChosenFunctionCard = null;
 
-    public void setChosenKart(Card chosen_card) {
+    public Game getGame() {
+        return game;
+    }
+
+    public void setChosenKart(BasicCard chosen_card) {
         this.chosen_card = chosen_card;
+    }
+
+    public Player getCurrentPlayer() {
+        return CurrentPlayer;
     }
 
     String[] opcje = {"Opcja 1", "Opcja 2", "Opcja 3", "Opcja 4"};
@@ -45,6 +51,14 @@ public class GameActivity extends AppCompatActivity {
     private ArrayList<String> getPlayersNames() {
         Intent intent = getIntent();
         return intent.getStringArrayListExtra("NamePlayers");
+    }
+
+    public void setFunctionCard(FunctionCard functionCard) {
+        this.ChosenFunctionCard = functionCard;
+    }
+
+    public GridView getCardContainers() {
+        return cardContainers;
     }
 
     @Override
@@ -79,7 +93,16 @@ public class GameActivity extends AppCompatActivity {
         {
             public  void onItemClick(AdapterView parent, View v, int position, long id){
                 Toast.makeText(getBaseContext(),"Wybrano kartę nr"+(position+1), Toast.LENGTH_SHORT).show();
-                if (chosen_card != null && game.getTurn().checkPossiblityMovement(CurrentPlayer) && chosen_card.possibilityCoveredCard(CurrentVIewPlayer, position)) {
+                if (ChosenFunctionCard != null && game.getTurn().checkPossiblityMovement(CurrentPlayer)){
+                    if (ChosenFunctionCard.actionFunctionCard(position, CurrentVIewPlayer)){
+                        ImageView chosen_imageView = ChosenFunctionCard.getImageViewToCardsInHand();
+                        CurrentPlayer.getCardInHeand().remove(ChosenFunctionCard);
+                        LinearLayout linearLayout1 = findViewById(R.id.linearLayout);
+                        linearLayout1.removeView(chosen_imageView);
+                        game.getTurn().addMoveInTour(CurrentPlayer);
+                        ChosenFunctionCard = null;
+                    }
+                }else if (chosen_card != null && game.getTurn().checkPossiblityMovement(CurrentPlayer) && chosen_card.possibilityCoveredCard(CurrentVIewPlayer, position)) {
                     ImageView chosen_imageView = chosen_card.getImageViewToCardsInHand();
                     CurrentPlayer.getCardInHeand().remove(chosen_card);
                     CurrentVIewPlayer.EnterCardToPlay(chosen_card, position);
@@ -125,9 +148,7 @@ public class GameActivity extends AppCompatActivity {
         });
     }
 
-    public GridView getCardContainers() {
-        return cardContainers;
-    }
+
 
     private void createGame() {
         ArrayList<String> playerNames = getPlayersNames();
@@ -152,7 +173,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void OnclickButtonBattle(View v){
-        ArrayList<Pair<Player, Integer>> a = game.battle();
+        game.getBattle().battle();
     }
 
     public void OnClickButtonNextPlayer(View v){

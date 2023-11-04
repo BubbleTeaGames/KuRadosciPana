@@ -1,6 +1,7 @@
-package com.example.ukladajzwyciezaj;
+package com.example.ukladajzwyciezaj.CardMechanik;
 
-import android.widget.Switch;
+import com.example.ukladajzwyciezaj.Enum.CardInfuence;
+import com.example.ukladajzwyciezaj.Enum.SideAttack;
 
 public class AttacksCard {
     private CardInfuence rightAttack;

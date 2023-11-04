@@ -1,16 +1,24 @@
-package com.example.ukladajzwyciezaj;
+package com.example.ukladajzwyciezaj.GameMechanik;
 import android.content.Context;
 import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.ukladajzwyciezaj.Activites.GameActivity;
-import com.example.ukladajzwyciezaj.CardChildren.ClaustrophobiaCard;
-import com.example.ukladajzwyciezaj.CardChildren.CoveredCard;
+import com.example.ukladajzwyciezaj.Card;
+import com.example.ukladajzwyciezaj.CardChildren.ClaustrophobiaBasicCard;
+import com.example.ukladajzwyciezaj.CardChildren.CoveredBasicCard;
 import com.example.ukladajzwyciezaj.CardChildren.Fatty;
-import com.example.ukladajzwyciezaj.CardChildren.KillerCard;
-import com.example.ukladajzwyciezaj.CardChildren.RotatingCard;
+import com.example.ukladajzwyciezaj.CardChildren.Kamikaze;
+import com.example.ukladajzwyciezaj.CardChildren.KillerBasicCard;
+import com.example.ukladajzwyciezaj.CardChildren.RotatingBasicCard;
 import com.example.ukladajzwyciezaj.CardChildren.Starveling;
+import com.example.ukladajzwyciezaj.CardMechanik.BasicCard;
+import com.example.ukladajzwyciezaj.Enum.CardInfuence;
+import com.example.ukladajzwyciezaj.FunctionCard.FunctionCard;
+import com.example.ukladajzwyciezaj.FunctionCard.FunctionCardExchange;
+import com.example.ukladajzwyciezaj.FunctionCard.MoveCard;
+import com.example.ukladajzwyciezaj.R;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -87,7 +95,7 @@ public class PileOfCards {
         if (informationAboutCard[6].equals("rotating")) {
             int resIdArterRotatin = this.context.getResources().getIdentifier(informationAboutCard[8],
                     "drawable", context.getPackageName());
-            Card card = new RotatingCard(CardInfuence.valueOf(informationAboutCard[3]),
+            Card card = new RotatingBasicCard(CardInfuence.valueOf(informationAboutCard[3]),
                     CardInfuence.valueOf(informationAboutCard[1]),
                     CardInfuence.valueOf(informationAboutCard[2]), CardInfuence.valueOf(informationAboutCard[4]),
                     KartView, resId, Integer.valueOf(informationAboutCard[5]), resIdArterRotatin, gameActivity, context, weakling);
@@ -95,19 +103,19 @@ public class PileOfCards {
         } else if (informationAboutCard[6].equals("ninja")) {
             int resIdCurtain = this.context.getResources().getIdentifier(informationAboutCard[8],
                     "drawable", context.getPackageName());
-            Card card = new CoveredCard(CardInfuence.valueOf(informationAboutCard[3]),
+            Card card = new CoveredBasicCard(CardInfuence.valueOf(informationAboutCard[3]),
                     CardInfuence.valueOf(informationAboutCard[1]),
                     CardInfuence.valueOf(informationAboutCard[2]), CardInfuence.valueOf(informationAboutCard[4]),
                     KartView, resId, Integer.valueOf(informationAboutCard[5]), resIdCurtain, gameActivity, context, weakling);
             return card;
         } else if (informationAboutCard[6].equals("killer")) {
-            Card card = new KillerCard(CardInfuence.valueOf(informationAboutCard[3]),
+            Card card = new KillerBasicCard(CardInfuence.valueOf(informationAboutCard[3]),
                     CardInfuence.valueOf(informationAboutCard[1]), CardInfuence.valueOf(informationAboutCard[2]),
                     CardInfuence.valueOf(informationAboutCard[4]), KartView, resId,
                     Integer.valueOf(informationAboutCard[5]), gameActivity, context, weakling);
             return card;
         } else if (informationAboutCard[6].equals("claustrophobia")) {
-            Card card = new ClaustrophobiaCard(CardInfuence.valueOf(informationAboutCard[3]),
+            Card card = new ClaustrophobiaBasicCard(CardInfuence.valueOf(informationAboutCard[3]),
                     CardInfuence.valueOf(informationAboutCard[1]), CardInfuence.valueOf(informationAboutCard[2]),
                     CardInfuence.valueOf(informationAboutCard[4]), KartView, resId,
                     Integer.valueOf(informationAboutCard[5]), gameActivity, context, weakling);
@@ -124,8 +132,20 @@ public class PileOfCards {
                     CardInfuence.valueOf(informationAboutCard[4]), KartView, resId,
                     Integer.valueOf(informationAboutCard[5]), gameActivity, context, weakling);
             return card;
+        }else if (informationAboutCard[6].equals("kamikaze")) {
+            Card card = new Kamikaze(CardInfuence.valueOf(informationAboutCard[3]),
+                    CardInfuence.valueOf(informationAboutCard[1]), CardInfuence.valueOf(informationAboutCard[2]),
+                    CardInfuence.valueOf(informationAboutCard[4]), KartView, resId,
+                    Integer.valueOf(informationAboutCard[5]), gameActivity, context, weakling);
+            return card;
+        }else  if (informationAboutCard[6].equals("function_card")) {
+            Card card = new FunctionCardExchange(context, gameActivity, KartView);
+            return card;
+        }else  if (informationAboutCard[6].equals("function_card_move_card")) {
+            Card card = new MoveCard(context, gameActivity, KartView);
+            return card;
         }else {
-            Card card = new Card(CardInfuence.valueOf(informationAboutCard[3]),
+            Card card = new BasicCard(CardInfuence.valueOf(informationAboutCard[3]),
                     CardInfuence.valueOf(informationAboutCard[1]), CardInfuence.valueOf(informationAboutCard[2]),
                     CardInfuence.valueOf(informationAboutCard[4]), KartView, resId,
                     Integer.valueOf(informationAboutCard[5]), gameActivity, context, weakling);
