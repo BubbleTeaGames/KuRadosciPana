@@ -24,6 +24,10 @@ public class BasicCard implements Card {
     private boolean isWeakling;
     protected AttacksCard attacksCard;
 
+    public int getImageResource() {
+        return ImageResource;
+    }
+
     public BasicCard(CardInfuence left, CardInfuence right, CardInfuence bottom, CardInfuence top,
                      ImageView imageView, int imageResource, int puntaction, GameActivity gameActivity, Context context, boolean weakling){
         this.ImageResource = imageResource;

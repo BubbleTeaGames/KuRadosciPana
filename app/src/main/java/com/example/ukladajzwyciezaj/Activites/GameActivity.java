@@ -3,6 +3,8 @@ package com.example.ukladajzwyciezaj.Activites;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -39,7 +41,21 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void setChosenKart(BasicCard chosen_card) {
+        deactivateChosenCard();
         this.chosen_card = chosen_card;
+
+        Drawable[] layers = new Drawable[2];
+        layers[0] = getResources().getDrawable(chosen_card.getImageResource()); // Ustaw obraz, który chcesz wyświetlić
+        layers[1] = getResources().getDrawable(R.drawable.obramowanie); // Dodaj obramowanie
+
+        LayerDrawable layerDrawable = new LayerDrawable(layers);
+        chosen_card.getImageViewToCardsInHand().setImageDrawable(layerDrawable);
+    }
+
+    public void deactivateChosenCard(){
+        if (chosen_card != null){
+            this.chosen_card = null;
+        }
     }
 
     public Player getCurrentPlayer() {
@@ -110,7 +126,7 @@ public class GameActivity extends AppCompatActivity {
                     LinearLayout linearLayout1 = findViewById(R.id.linearLayout);
                     linearLayout1.removeView(chosen_imageView);
                     game.getTurn().addMoveInTour(CurrentPlayer);
-                    chosen_card = null;
+                    deactivateChosenCard();
                 } else if ((buttonPawnEnable) && (CurrentPlayer == CurrentVIewPlayer) && (game.getTurn().checkPossibilityMovementPawn(CurrentPlayer))) {
                     CurrentPlayer.getPaws().movePaws(position, CurrentPlayer.getPositionKart());
                     CurrentPlayer.getImageAdapter().refreshAdapter();
@@ -148,8 +164,6 @@ public class GameActivity extends AppCompatActivity {
         });
     }
 
-
-
     private void createGame() {
         ArrayList<String> playerNames = getPlayersNames();
         try {
@@ -169,7 +183,7 @@ public class GameActivity extends AppCompatActivity {
 
     public void OnclickButtonChancePawn(View v){
         this.buttonPawnEnable = !buttonPawnEnable;
-        this.chosen_card = null;
+        deactivateChosenCard();
     }
 
     public void OnclickButtonBattle(View v){
