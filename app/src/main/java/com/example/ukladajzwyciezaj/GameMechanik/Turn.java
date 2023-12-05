@@ -1,11 +1,15 @@
 package com.example.ukladajzwyciezaj.GameMechanik;
 
+import android.content.Context;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 
+import com.example.ukladajzwyciezaj.Activites.GameActivity;
 import com.example.ukladajzwyciezaj.CardChildren.ClaustrophobiaBasicCard;
 import com.example.ukladajzwyciezaj.CardChildren.Starveling;
 import com.example.ukladajzwyciezaj.CardMechanik.BasicCard;
 import com.example.ukladajzwyciezaj.CardMechanik.Gravitation;
+import com.example.ukladajzwyciezaj.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,6 +82,7 @@ public class Turn {
     public Player getNextPlayer(){
         checkAfterMovePlayer();
         gravitation.gravitationWeakling(players.get(currentPlayerIndex));
+
 
         if (this.currentPlayerIndex >= this.players.size()-1){
             this.currentPlayerIndex = 0;

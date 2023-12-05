@@ -1,6 +1,8 @@
 package com.example.ukladajzwyciezaj.CardMechanik;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -97,5 +99,14 @@ public class BasicCard implements Card {
 
     public boolean possibilityCoveredCard(Player CurrentVIewPlayer, int position){
         return !CurrentVIewPlayer.getPositionKart().containsKey(position);
+    }
+
+    public void setBorder(){
+        Drawable[] layers = new Drawable[2];
+        layers[0] = context.getResources().getDrawable(getImageResource()); // Ustaw obraz, który chcesz wyświetlić
+        layers[1] = context.getResources().getDrawable(R.drawable.obramowanie); // Dodaj obramowanie
+
+        LayerDrawable layerDrawable = new LayerDrawable(layers);
+        getImageViewToCardsInHand().setImageDrawable(layerDrawable);
     }
 }

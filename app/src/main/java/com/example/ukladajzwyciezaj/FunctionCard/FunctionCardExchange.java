@@ -42,6 +42,11 @@ public class FunctionCardExchange extends FunctionCard{
         return false;
     }
 
+    @Override
+    void cancelCard() {
+        this.firstCardSelected = null;
+    }
+
     private void swapCard(int position1, Player player){
         Pair<BasicCard, Integer> SecondCardSelected = new Pair<>(player.getPositionKart().get(position1), position1);
         player.EnterCardToPlay(firstCardSelected.getFirst(), SecondCardSelected.getSecond());

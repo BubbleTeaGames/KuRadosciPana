@@ -40,7 +40,7 @@ public abstract class FunctionCard implements Card {
             @Override
             public void onClick(View view) {
                 if (gameActivity.getGame().getTurn().checkPossiblityMovement(gameActivity.getCurrentPlayer())) {
-                    Toast.makeText(context, "!!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Wybrano kartę funkcyjną", Toast.LENGTH_SHORT).show();
                     showYesNoDialog(view);
                 }
             }
@@ -76,6 +76,7 @@ public abstract class FunctionCard implements Card {
                 .setNeutralButton("Anuluj", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        cancelCard();
                         gameActivity.setFunctionCard(null);
                     }
                 });
@@ -132,4 +133,6 @@ public abstract class FunctionCard implements Card {
         }
     }
     abstract boolean firstSkillAction(int position1, Player player);
+
+    abstract void cancelCard();
 }

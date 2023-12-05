@@ -44,17 +44,18 @@ public class GameActivity extends AppCompatActivity {
         deactivateChosenCard();
         this.chosen_card = chosen_card;
 
-        Drawable[] layers = new Drawable[2];
-        layers[0] = getResources().getDrawable(chosen_card.getImageResource()); // Ustaw obraz, który chcesz wyświetlić
-        layers[1] = getResources().getDrawable(R.drawable.obramowanie); // Dodaj obramowanie
-
-        LayerDrawable layerDrawable = new LayerDrawable(layers);
-        chosen_card.getImageViewToCardsInHand().setImageDrawable(layerDrawable);
+        chosen_card.setBorder();
     }
 
-    public void deactivateChosenCard(){
+    public BasicCard deactivateChosenCard(){
         if (chosen_card != null){
+            BasicCard cardWithoutBorder = chosen_card;
+            Drawable layers = getResources().getDrawable(chosen_card.getImageResource());
+            cardWithoutBorder.getImageViewToCardsInHand().setImageDrawable(layers);
             this.chosen_card = null;
+            return cardWithoutBorder;
+        }else{
+            return null;
         }
     }
 
@@ -119,14 +120,15 @@ public class GameActivity extends AppCompatActivity {
                         ChosenFunctionCard = null;
                     }
                 }else if (chosen_card != null && game.getTurn().checkPossiblityMovement(CurrentPlayer) && chosen_card.possibilityCoveredCard(CurrentVIewPlayer, position)) {
-                    ImageView chosen_imageView = chosen_card.getImageViewToCardsInHand();
-                    CurrentPlayer.getCardInHeand().remove(chosen_card);
-                    CurrentVIewPlayer.EnterCardToPlay(chosen_card, position);
+                    BasicCard cardToInsert = deactivateChosenCard();
+                    ImageView chosen_imageView = cardToInsert.getImageViewToCardsInHand();
+                    CurrentPlayer.getCardInHeand().remove(cardToInsert);
+                    CurrentVIewPlayer.EnterCardToPlay(cardToInsert, position);
                     CurrentVIewPlayer.getImageAdapter().notifyDataSetChanged();
                     LinearLayout linearLayout1 = findViewById(R.id.linearLayout);
                     linearLayout1.removeView(chosen_imageView);
                     game.getTurn().addMoveInTour(CurrentPlayer);
-                    deactivateChosenCard();
+
                 } else if ((buttonPawnEnable) && (CurrentPlayer == CurrentVIewPlayer) && (game.getTurn().checkPossibilityMovementPawn(CurrentPlayer))) {
                     CurrentPlayer.getPaws().movePaws(position, CurrentPlayer.getPositionKart());
                     CurrentPlayer.getImageAdapter().refreshAdapter();
@@ -150,7 +152,7 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String wybranaOpcja = opcje[position];
-                Toast.makeText(getApplicationContext(), "Wybrano: " + wybranaOpcja, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Wybrano: " + wybranaOpcja, Toast.LENGTH_SHORT).show();
                 if (position == 1){
                     Intent intent = new Intent(GameActivity.this, InstructionActivity.class);
                     startActivity(intent);
