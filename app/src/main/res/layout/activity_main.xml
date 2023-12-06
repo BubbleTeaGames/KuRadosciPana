@@ -15,7 +15,7 @@
             android:layout_marginStart="30dp"
             android:layout_marginBottom="70dp"
             android:onClick="OnclickButtonInstruction"
-            android:text="Button"
+            android:text="@string/InstructionButton"
             app:layout_constraintBottom_toTopOf="@+id/scrollView2"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -26,7 +26,7 @@
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="70dp"
             android:onClick="OnClickButtonAddPlayer"
-            android:text="Button"
+            android:text="@string/AddPlayer"
             app:layout_constraintBottom_toTopOf="@+id/scrollView2"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="80dp"
             android:onClick="OnCLickButtonStart"
-            android:text="Button"
+            android:text="@string/StartGame"
             app:layout_constraintBottom_toTopOf="@+id/button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

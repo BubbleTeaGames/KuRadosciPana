@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ukladajzwyciezaj.BattleActivity;
 import com.example.ukladajzwyciezaj.Card;
 import com.example.ukladajzwyciezaj.CardMechanik.BasicCard;
 import com.example.ukladajzwyciezaj.FunctionCard.FunctionCard;
@@ -188,10 +189,6 @@ public class GameActivity extends AppCompatActivity {
         deactivateChosenCard();
     }
 
-    public void OnclickButtonBattle(View v){
-        game.getBattle().battle();
-    }
-
     public void OnClickButtonNextPlayer(View v){
         buttonPawnEnable = false;
         LinearLayout linearLayout = findViewById(R.id.linearLayout);
@@ -200,4 +197,5 @@ public class GameActivity extends AppCompatActivity {
         this.CurrentPlayer.SetViewLinearlayout(linearLayout);
         textView.setText(this.CurrentPlayer.getName());
     }
+
 }

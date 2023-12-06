@@ -117,8 +117,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:onClick="OnclickButtonBattle"
-                    android:text="finish" />
+                    android:onClick="OnclickButtonChancePawn"
+                    android:text="@string/NamePawn" />
 
                 <Button
                     android:id="@+id/button5"
@@ -126,7 +126,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:onClick="OnClickButtonNextPlayer"
-                    android:text="next " />
+                    android:text="@string/NextPlayer" />
 
                 <Button
                     android:id="@+id/button3"

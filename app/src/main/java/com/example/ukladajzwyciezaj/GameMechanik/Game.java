@@ -33,6 +33,10 @@ public class Game {
     private GameActivity gameActivity;
     private Battle battle;
 
+    public Context getContext() {
+        return context;
+    }
+
     public Game(Context context, GameActivity gameActivity, ArrayList<String> playerNames, Integer numCol, Integer numRow) throws IOException {
         this.pileOfCards = new PileOfCards(context, gameActivity);
         this.players = new ArrayList<>();
@@ -49,9 +53,9 @@ public class Game {
         }
         this.currentPlayerIndex = 0;
         this.context = context;
-        this.turn = new Turn(this.players, 2, 1, gameActivity.getCardContainers());
-        this.gameActivity = gameActivity;
         this.battle = new Battle(players);
+        this.turn = new Turn(this.players, 2, 1, gameActivity.getCardContainers(), this);
+        this.gameActivity = gameActivity;
     }
 
     public Battle getBattle() {

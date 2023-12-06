@@ -1,14 +1,17 @@
 package com.example.ukladajzwyciezaj.GameMechanik;
 
 import android.content.Context;
+import android.content.Intent;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 
 import com.example.ukladajzwyciezaj.Activites.GameActivity;
+import com.example.ukladajzwyciezaj.BattleActivity;
 import com.example.ukladajzwyciezaj.CardChildren.ClaustrophobiaBasicCard;
 import com.example.ukladajzwyciezaj.CardChildren.Starveling;
 import com.example.ukladajzwyciezaj.CardMechanik.BasicCard;
 import com.example.ukladajzwyciezaj.CardMechanik.Gravitation;
+import com.example.ukladajzwyciezaj.CyclicalActivationBattle;
 import com.example.ukladajzwyciezaj.R;
 
 import java.util.ArrayList;
@@ -25,7 +28,9 @@ public class Turn {
     private ArrayList<Player> players;
     private int currentPlayerIndex;
     private Gravitation gravitation;
-    public Turn(ArrayList<Player> players, int maxMoves, int maxPawnMoves, GridView cardContainer){
+    private Game game;
+    private CyclicalActivationBattle cyclicalActivationBattle;
+    public Turn(ArrayList<Player> players, int maxMoves, int maxPawnMoves, GridView cardContainer, Game game){
         this.availableCardMoves = new HashMap<>();
         this.availablePawnMoves = new HashMap<>();
         this.actualTurn = 0;
@@ -38,6 +43,8 @@ public class Turn {
         this.currentPlayerIndex = 0;
         this.players = players;
         this.maxPawnMoves = maxPawnMoves;
+        this.game = game;
+        this.cyclicalActivationBattle = new CyclicalActivationBattle(game.getContext(), game.getBattle());
     }
     public void nextTour(ArrayList<Player> players){
         this.actualTurn += 1;
@@ -80,9 +87,6 @@ public class Turn {
     }
 
     public Player getNextPlayer(){
-        checkAfterMovePlayer();
-        gravitation.gravitationWeakling(players.get(currentPlayerIndex));
-
 
         if (this.currentPlayerIndex >= this.players.size()-1){
             this.currentPlayerIndex = 0;
@@ -90,6 +94,7 @@ public class Turn {
         }else {
             this.currentPlayerIndex = this.currentPlayerIndex +1;
         }
+        checkAfterMovePlayer();
         return this.players.get(this.currentPlayerIndex);
     }
 
@@ -133,5 +138,7 @@ public class Turn {
     public void checkAfterMovePlayer(){
         checkClaustrophobiaCards();
         checkStarvelingCard();
+        gravitation.gravitationWeakling(players.get(currentPlayerIndex));
+        cyclicalActivationBattle.CheckBattle();
     }
 }
