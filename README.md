@@ -1,2 +1,2 @@
 # GraKarcainaAndroidApication
- Gra na podstawie "Ku radosci Pana"
+ Gra Multiplayer na podstawie "Ku radosci Pana" 
