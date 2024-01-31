@@ -1,6 +1,5 @@
 package com.example.ukladajzwyciezaj.Activites;
 import com.example.ukladajzwyciezaj.R;
-import com.example.ukladajzwyciezaj.helpMetod;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -48,16 +47,16 @@ public class MainActivity extends AppCompatActivity {
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.setMarginEnd(spacing);
 
-        TextView textView = helpMetod.getTextView(this);
+        TextView textView = CreateComponents.getTextView(this);
         linearLayouthorizontal.addView(textView, layoutParams);
 
-        EditText editText = helpMetod.getEditText(this, IDPlayers);
+        EditText editText = CreateComponents.getEditText(this, IDPlayers);
         linearLayouthorizontal.addView(editText, layoutParams);
 
-        Button buttondelete = helpMetod.getButtonDelete(this, linearLayout, linearLayouthorizontal, IDPlayers, NamePlayers);
+        Button buttondelete = CreateComponents.getButtonDelete(this, linearLayout, linearLayouthorizontal, IDPlayers, NamePlayers);
         linearLayouthorizontal.addView(buttondelete, layoutParams);
 
-        Button buttonsubmit = helpMetod.getButtonsubmit(this, NamePlayers, IDPlayers);
+        Button buttonsubmit = CreateComponents.getButtonsubmit(this, NamePlayers, IDPlayers);
 
         linearLayouthorizontal.addView(buttonsubmit, layoutParams);
         linearLayout.addView(linearLayouthorizontal);

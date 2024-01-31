@@ -43,4 +43,11 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="NamePawn">Pawn</string>
+    <string name="NextPlayer">Next</string>
+    <string name="CompleteCards">Complete</string>
+    <string name="StartPlay">Graj</string>
+    <string name="AddPlayer">Add Player</string>
+    <string name="StartGame">Play</string>
+    <string name="InstructionButton">Instruction</string>
 </resources>

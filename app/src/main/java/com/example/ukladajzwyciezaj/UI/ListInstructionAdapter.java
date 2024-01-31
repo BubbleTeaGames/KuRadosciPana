@@ -41,6 +41,7 @@ public class ListInstructionAdapter extends ArrayAdapter {
         TextView textView2 = (TextView) rowVIew.findViewById(R.id.textView2);
 
         imageView.setImageResource(picture[position]);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         textView1.setText(name[position]);
         textView2.setText(description[position]);
 

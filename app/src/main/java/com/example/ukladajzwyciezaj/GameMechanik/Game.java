@@ -1,13 +1,15 @@
-package com.example.ukladajzwyciezaj;
+package com.example.ukladajzwyciezaj.GameMechanik;
 
 import android.content.Context;
 import android.content.Intent;
-import android.widget.GridView;
 
 import com.example.ukladajzwyciezaj.Activites.FinishActivity;
 import com.example.ukladajzwyciezaj.Activites.GameActivity;
-import com.example.ukladajzwyciezaj.Activites.InstructionActivity;
-import com.example.ukladajzwyciezaj.Activites.MainActivity;
+import com.example.ukladajzwyciezaj.Card;
+import com.example.ukladajzwyciezaj.CardMechanik.Battle;
+import com.example.ukladajzwyciezaj.CardMechanik.BasicCard;
+import com.example.ukladajzwyciezaj.Enum.CardInfuence;
+import com.example.ukladajzwyciezaj.Enum.SideAttack;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,6 +31,12 @@ public class Game {
     private Integer numColCardContainer;
     private Integer numRowCardContainer;
     private GameActivity gameActivity;
+    private Battle battle;
+
+    public Context getContext() {
+        return context;
+    }
+
     public Game(Context context, GameActivity gameActivity, ArrayList<String> playerNames, Integer numCol, Integer numRow) throws IOException {
         this.pileOfCards = new PileOfCards(context, gameActivity);
         this.players = new ArrayList<>();
@@ -37,7 +45,7 @@ public class Game {
 
         for (String playerName : playerNames) {
             try {
-                Player player = new Player(context, playerName, this, numRow, numCol);
+                Player player = new Player(context, playerName, this, numRow, numCol, gameActivity);
                 this.players.add(player);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -45,8 +53,13 @@ public class Game {
         }
         this.currentPlayerIndex = 0;
         this.context = context;
-        this.turn = new Turn(this.players, 2, 1);
+        this.battle = new Battle(players);
+        this.turn = new Turn(this.players, 2, 1, gameActivity.getCardContainers(), this);
         this.gameActivity = gameActivity;
+    }
+
+    public Battle getBattle() {
+        return battle;
     }
 
     public PileOfCards getPileOfKart() {
@@ -62,32 +75,32 @@ public class Game {
     }
 
     private static List<CardInfuence> attackInfuences = Arrays.asList(CardInfuence.TRIPLE_ATTACK, CardInfuence.DOUBLE_ATTACK, CardInfuence.ATTACK);
+    private static List<SideAttack> sideAttacksToEnum = Arrays.asList(SideAttack.RIGHT, SideAttack.LEFT, SideAttack.TOP, SideAttack.BOTTOM);
 
     public ArrayList<Pair<Player, Integer>> battle(){
         ArrayList<Pair<Player, Integer>> cardsToBeRemoved = new ArrayList<>();
 
         for (Player player : this.players) {
-            for (int i = 0; i < 4; i++){
-                HashMap<Integer, CardInfuence> sideAttack = player.getInformationAttack().getSetSideAttack().get(i);
+            for (SideAttack actualSide : sideAttacksToEnum){
+                CardInfuence[] sideAttack = player.getInformationAttack().getSetSideAttack().getForSide(actualSide);
 
                 for (CardInfuence powerAttack : attackInfuences){
-                    for (Map.Entry<Integer, CardInfuence> entry : sideAttack.entrySet()) {
+                    for (int index=0; index<80; index++) {
 
-                        if (!player.getPositionKart().containsKey(entry.getKey())){
+                        if (!player.getPositionKart().containsKey(index)){
                             continue;
                         }
 
-                        Card attackCard = player.getPositionKart().get(entry.getKey());
-                        SideAttack SideToDefense = helpMetod.getSideToCheckDefense(player.getContext(), i);
+                        BasicCard attackCard = player.getPositionKart().get(index);
 
-                        if ((entry.getValue() == powerAttack) && (attackCard.getValueAttack().get(SideToDefense) != CardInfuence.DEFENSE) ){
-                            Pair<Player, Integer> playerFiled = new Pair<>(player, entry.getKey());
+                        if ((sideAttack[index] == powerAttack) && (attackCard.getAttacksCard().getForSide(actualSide) != CardInfuence.DEFENSE) ){
+                            Pair<Player, Integer> playerFiled = new Pair<>(player, index);
                             cardsToBeRemoved.add(playerFiled);
                         }
                     }
 
                     for (Pair<Player, Integer> toBeRemoved : cardsToBeRemoved){
-                        toBeRemoved.getFirst().deleteKart(toBeRemoved.getSecond());
+                        toBeRemoved.getFirst().reactionToAttack(toBeRemoved.getSecond());
                         cardsToBeRemoved.remove(toBeRemoved);
                         //toBeRemoved.getFirst().getImageAdapter().changeFirstImage(R.drawable.grafika_karty, toBeRemoved.getSecond());
                     }
@@ -96,6 +109,7 @@ public class Game {
         }
         return cardsToBeRemoved;
     }
+
 
     public HashMap<Player, Integer> calculateScores(){
         HashMap<Player, Integer> scores = new HashMap<>();
@@ -109,8 +123,8 @@ public class Game {
             }else {
                 multiplierPoint = 1;
             }
-            HashMap<Integer, Card> positionCard = player.getPositionKart();
-            for (Map.Entry<Integer, Card> entry : positionCard.entrySet()){
+            HashMap<Integer, BasicCard> positionCard = player.getPositionKart();
+            for (Map.Entry<Integer, BasicCard> entry : positionCard.entrySet()){
                 int rowCard = (int) getRowCard(entry.getKey());
                 if (rowCard > multiplierPoint) {
                     rowCard = 1;

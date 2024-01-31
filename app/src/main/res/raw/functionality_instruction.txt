@@ -1,3 +1,5 @@
 ----name_grafic----;----name_cards----;----description----;
-kart_to_insite;name name name;opis opis;
-kart_to_insite;name name name;opis opis;
+gra;Gra;Gra polega na układaniu kart na prostokątnej planszy, każda karta swoją punktację, suma punktów każdego gracza to punkty za karty na jego planszy. Pamiętaj aby uważać na ataki jakie posiadają karty. Możesz również dokładać karty innym graczom aby pokrzyżować im plany.  
+instruckcja_grawitacja;Grawitacja;Jeśli po kartą nie znajduje się żadna inna karta lub podłoże karta spada danego gracza spada na najniższe wolne pole.
+pawn;Pionek;Po wciśnięciu przycisku „pawn” gracz ma możliwość położenia a następnie przesuwania swojego pionka po swoich kartach. Podczas podliczania punktów mnożone są punkty kart znajdujących się pod pionkiem. Pionkiem można poruszać się tylko w 4 podstawowych kierunkach oraz o 1 ruch w każdej turze.
+battle;Bitwa;Bitwa aktywuje wszystkie ataki kart, najpierw rozpatrywane są ataki z największą ilością strzałek (szybkość ataku) aż do pojedynczych ataków. Zaatakowane karty bez obrony w danym kierunku są usuwane.

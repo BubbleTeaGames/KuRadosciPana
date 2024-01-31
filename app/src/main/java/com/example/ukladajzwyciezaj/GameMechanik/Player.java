@@ -1,4 +1,4 @@
-package com.example.ukladajzwyciezaj;
+package com.example.ukladajzwyciezaj.GameMechanik;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,20 +16,30 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.ukladajzwyciezaj.Activites.GameActivity;
+import com.example.ukladajzwyciezaj.Card;
+import com.example.ukladajzwyciezaj.CardMechanik.AttacksCard;
+import com.example.ukladajzwyciezaj.CardMechanik.BasicCard;
+import com.example.ukladajzwyciezaj.CardMechanik.ForwardingAttack;
+import com.example.ukladajzwyciezaj.Enum.SideAttack;
+import com.example.ukladajzwyciezaj.R;
+
 public class Player {
     private ForwardingAttack informationAttack;
-    private HashMap<Integer, Card> positionKart;
+    private HashMap<Integer, BasicCard> positionKart;
     private ImageView[] placeToKartImageVIew = new ImageView[80];
     private Context context;
     private ImageAdapter imageAdapter;
     private String Name;
     private ArrayList<Card> cardInHeand;
     private Paws paws;
+    GridView cardContainers;
+    int numCol;
 
 
-    public Player(Context context, String name, Game game,int numRow, int numCol) throws IOException {
+    public Player(Context context, String name, Game game, int numRow, int numCol, GameActivity gameActivity) throws IOException {
         this.positionKart = new HashMap<>();
-        this.informationAttack = new ForwardingAttack();
+        this.informationAttack = new ForwardingAttack(numCol);
         this.context = context;
         this.Name = name;
         this.imageAdapter = new ImageAdapter();
@@ -42,6 +52,12 @@ public class Player {
         }
         this.completeCartInHeand(game);
         this.paws = new Paws(context, numRow, numCol);
+        this.cardContainers = gameActivity.getCardContainers();
+        this.numCol = numCol;
+    }
+
+    public int getNumCol() {
+        return numCol;
     }
 
     public ArrayList<Card> getCardInHeand() {
@@ -56,7 +72,7 @@ public class Player {
         return paws;
     }
 
-    public HashMap<Integer, Card> getPositionKart() {
+    public HashMap<Integer, BasicCard> getPositionKart() {
         return positionKart;
     }
 
@@ -96,39 +112,35 @@ public class Player {
         }
     }
 
-    public int getPositionCardAfterGravitation(GridView gridView, int position){
-        int numCol = gridView.getNumColumns();
-        int numObject = gridView.getAdapter().getCount();
-        int positionUnderCard = position + numCol;
-        while (positionUnderCard < numObject-1 && !this.positionKart.containsKey(positionUnderCard)) {
-            position = positionUnderCard;
-            positionUnderCard = position + numCol;
-        }
-        return position;
-
-    }
-
-    public int EnterCardToPlay(GridView gridView, Card kart, Integer position){
-        int numCol = gridView.getNumColumns();
-        position = getPositionCardAfterGravitation(gridView, position);
+    public int EnterCardToPlay(BasicCard kart, Integer position){
+        int numCol = cardContainers.getNumColumns();
         this.positionKart.put(position, kart);
         this.placeToKartImageVIew[position] = kart.getImageViewToBoard();
-        HashMap<SideAttack, CardInfuence> attackKart = kart.getValueAttack();
-        this.informationAttack.SaveAttack(attackKart.get(SideAttack.RIGHT),position+1, SideAttack.RIGHT);
-        this.informationAttack.SaveAttack(attackKart.get(SideAttack.LEFT),position-1, SideAttack.LEFT);
-        this.informationAttack.SaveAttack(attackKart.get(SideAttack.TOP),position - numCol, SideAttack.TOP);
-        this.informationAttack.SaveAttack(attackKart.get(SideAttack.BOTTOM),position + numCol, SideAttack.BOTTOM);
+        AttacksCard attacksKart = kart.getAttacksCard();
+        this.informationAttack.SaveAttackFrom(attacksKart.getForSide(SideAttack.RIGHT), position, SideAttack.RIGHT);
+        this.informationAttack.SaveAttackFrom(attacksKart.getForSide(SideAttack.LEFT), position, SideAttack.LEFT);
+        this.informationAttack.SaveAttackFrom(attacksKart.getForSide(SideAttack.TOP), position, SideAttack.TOP);
+        this.informationAttack.SaveAttackFrom(attacksKart.getForSide(SideAttack.BOTTOM), position, SideAttack.BOTTOM);
         return position;
     }
 
-    public void deleteKart(int position){
+    public void reactionToAttack(int position){
         GridView gridView1 = ((Activity) context).findViewById(R.id.gridview);
         int numCol = gridView1.getNumColumns();
-        Card cardToRemove = this.positionKart.get(position);
+        BasicCard cardToRemove = this.positionKart.get(position);
         if (cardToRemove != null) {
-            Card.functionDelete deleteFunction = cardToRemove.getFunctionDelete();
+            BasicCard.functionDelete deleteFunction = cardToRemove.getFunctionDelete();
             deleteFunction.instructionDelete(informationAttack, positionKart, position, numCol, imageAdapter);
         }
+    }
+
+    public void completeRemove(int position){
+        informationAttack.RemoveAttack(position, SideAttack.LEFT);
+        informationAttack.RemoveAttack(position, SideAttack.RIGHT);
+        informationAttack.RemoveAttack(position, SideAttack.BOTTOM);
+        informationAttack.RemoveAttack(position, SideAttack.TOP);
+        positionKart.remove(position);
+        imageAdapter.changeFirstImage(R.drawable.grafika_karty, position);
     }
 
     public class ImageAdapter extends BaseAdapter{
@@ -149,7 +161,9 @@ public class Player {
 
         public void changeFirstImage(int newImageResource, int position) {
             if (placeToKartImageVIew.length > position) {
-                placeToKartImageVIew[position].setImageResource(newImageResource);
+                ImageView imageView = new ImageView(context);
+                imageView.setImageResource(newImageResource);
+                placeToKartImageVIew[position] = imageView;
                 notifyDataSetChanged();
             }
         }
@@ -159,23 +173,6 @@ public class Player {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            /*
-            ImageView imageView;
-
-            imageView = placeToKartImageVIew[position];
-            imageView.setLayoutParams(new GridView.LayoutParams(500, 500));
-
-            int desiredWidth = 200; // Dostosuj tę wartość do preferencji
-            int desiredHeight = 350; // Dostosuj tę wartość do preferencji
-            imageView.setLayoutParams(new GridView.LayoutParams(desiredWidth, desiredHeight));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-            imageView.setPadding(16,16,16,16);
-
-            //imageView.setImageDrawable(placeToKartImageVIew[position].getDrawable());
-            return imageView;
-
-             */
-
             View view ;
             //ImageView imageView = placeToKartImageVIew[position];
             //if (view == null) {

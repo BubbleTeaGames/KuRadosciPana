@@ -1,3 +1,13 @@
 ----name_grafic----;----name_cards----;----description----;
-grafika_karty;namecards;opis;
-grafika_karty;namecards;opis;
+right_doble_attack;Atak;Strzałki informują o szybkości ataku, jeśli dwie strzałki są skierowany do siebie obrażenie dostaje tylko karta z wolniejsza szybkością ataku w danym kierunku, jeśli prędkości są takie same obie karty otrzymują obrażenia.
+topdefence_bottom_defence;Obrona;Płaskie kreski symbolizują tarczę, tarcza broni przed wszystkimi prędkościami ataku które są skierowane w stronę gdzie jest tarcza
+killer;Zabójca;Ta karta może zostać położona w na dowolnej karcie. Karta  na której zostanie położona zostaje unicestwiona
+left_attack_ninja;Ninja;Po położeniu taj karty gracze nie widzą co to za karta
+down_doble_attack_rotating;Akrobata;Po otrzymaniu ataku obraca się o 180 stopni
+weakling;Słabeusz;Ginie kiedy spanie z wysokości, Żarłok zjadą ją kiedy w dowolnym momencie wskazuje na niego strzałką ataku
+starveling;Żarłok;Jeśli w dowolnym momencie wskazuje na słabeusza od razu go zabija
+fatty;Grubas;Spadając zabija kartę która na która spadnie
+kamikaze;Kamikaze;Sama ginie jeśli zaatakuje
+claustrophobia;Klaustrofob;Ginie jeśli zostanie otoczony ze wszystkich stron kartami lub granicą planszy
+function_card;Zamiana/atak;Jest to karta funkcyjna. Po wciśnięciu możesz wybrać opcję 1.Wybranie dowolnej karty która jako jedyna od razu wykona swój atak. 2. Zamienić dowolne dwie karty miejscami
+function_card_move_card;Przemieszczenie/atak;Jest to karta funkcyjna. Po wciśnięciu możesz wybrać opcję 1.Wybranie dowolnej karty która jako jedyna od razu wykona swój atak. 2. Przenieść kartę w pola narysowane na karcie (jeśli nie ma tam innej karty)
